@@ -991,8 +991,8 @@ void QetGraphicsTableItem::adjustColumnsWidth()
 	int sum_=0;
 	for(auto i= 0 ; i<m_model->columnCount() ; ++i)
 	{
-		auto at_a = std::min((int)m_minimum_column_width.size()-1, i);               //In case of the I is higher than m_minimum_column_width or
-		auto at_b = std::min((int)m_header_item->minimumSectionWidth().size()-1, i); //m_header_item->minimumSectionWidth().size()
+		auto at_a = std::min(m_minimum_column_width.size()-1, (qsizetype) i);               //In case of the I is higher than m_minimum_column_width or
+		auto at_b = std::min(m_header_item->minimumSectionWidth().size()-1,(qsizetype) i); //m_header_item->minimumSectionWidth().size()
 		m_header_item->resizeSection(
 					i,
 					std::max(
