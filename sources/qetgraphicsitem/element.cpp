@@ -758,10 +758,10 @@ bool Element::fromXml(QDomElement &e,
 	QList <QDomElement> uuid_list = QET::findInDomElement(e,
 														  QStringLiteral("links_uuids"),
 														  QStringLiteral("link_uuid"));
-	foreach (QDomElement qdo, uuid_list) {
+		foreach (QDomElement qdo, uuid_list) {
 		tmp_uuids_link << QUuid(qdo.attribute(QStringLiteral("uuid")));
-	}
-
+		}
+		qInfo() << "tmp_uuids_link: " << tmp_uuids_link;
 	//uuid of this element
 	m_uuid = QUuid(e.attribute(QStringLiteral("uuid"), QUuid::createUuid().toString()));
 
