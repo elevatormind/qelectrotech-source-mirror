@@ -18,6 +18,7 @@
 
 #include "qetproject.h"
 
+#include "qet.h"
 #include "ElementsCollection/xmlelementcollection.h"
 #include "autoNum/assignvariables.h"
 #include "autoNum/numerotationcontext.h"
@@ -35,9 +36,10 @@
 #include "qetxml.h"
 #include "qetversion.h"
 
+#include <QFuture>
 #include <QHash>
 #include <QTimer>
-#include <QtConcurrentRun>
+#include <QtConcurrent>
 #include <QtDebug>
 #include <utility>
 
@@ -86,14 +88,12 @@ QETProject::QETProject(const QString &path, QObject *parent) :
 	init();
 }
 
-#ifdef BUILD_WITHOUT_KF6
-#else
 /**
 	@brief QETProject::QETProject
 	@param backup : backup file to open, QETProject take ownership of backup.
 	@param parent : parent QObject
 */
-QETProject::QETProject(KAutoSaveFile *backup, QObject *parent) :
+QETProject::QETProject(AutoSaveFile *backup, QObject *parent) :
 	QObject              (parent),
 	m_titleblocks_collection(this),
 	m_data_base(this, this),
@@ -122,7 +122,6 @@ QETProject::QETProject(KAutoSaveFile *backup, QObject *parent) :
 
 	init();
 }
-#endif
 
 /**
 	@brief QETProject::~QETProject
@@ -330,13 +329,10 @@ void QETProject::setFilePath(const QString &filepath)
 	if (filepath == m_file_path) {
 		return;
 	}
-#ifdef BUILD_WITHOUT_KF6
-#else
 	if (m_backup_file.isOpen()) {
 		m_backup_file.close();
 	}
 	m_backup_file.setManagedFile(QUrl::fromLocalFile(filepath));
-#endif
 	m_file_path = filepath;
 
 	QFileInfo fi(m_file_path);

@@ -17,6 +17,7 @@
 */
 #include "qetdiagrameditor.h"
 
+#include "autosavefile.h"
 #include "ElementsCollection/elementscollectionwidget.h"
 #include "QWidgetAnimation/qwidgetanimation.h"
 #include "autoNum/ui/autonumberingdockwidget.h"
@@ -45,11 +46,6 @@
 #include "TerminalStrip/ui/terminalstripeditorwindow.h"
 #include "ui/diagrameditorhandlersizewidget.h"
 #include "TerminalStrip/ui/addterminalstripitemdialog.h"
-
-#ifdef BUILD_WITHOUT_KF6
-#else
-#	include <KAutoSaveFile>
-#endif
 
 /**
 	@brief QETDiagramEditor::QETDiagramEditor
@@ -1892,15 +1888,13 @@ bool QETDiagramEditor::drawGrid() const
 	return m_draw_grid->isChecked();
 }
 
-#ifdef BUILD_WITHOUT_KF6
-#else
 /**
 	@brief QETDiagramEditor::openBackupFiles
 	@param backup_files
 */
-void QETDiagramEditor::openBackupFiles(QList<KAutoSaveFile *> backup_files)
+void QETDiagramEditor::openBackupFiles(QList<AutoSaveFile *> backup_files)
 {
-	for (KAutoSaveFile *file : backup_files)
+	for (AutoSaveFile *file : backup_files)
 	{
 			//Create the project
 		DialogWaiting::instance(this);
@@ -1924,7 +1918,7 @@ void QETDiagramEditor::openBackupFiles(QList<KAutoSaveFile *> backup_files)
 		DialogWaiting::dropInstance();
 	}
 }
-#endif
+
 /**
 	met a jour le menu "Fenetres"
 */

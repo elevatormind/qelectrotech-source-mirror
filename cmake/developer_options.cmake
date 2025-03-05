@@ -31,8 +31,5 @@ add_definitions(-DQT_MESSAGELOGCONTEXT)
 # In order to do so, uncomment the following line.
 #add_definitions(-DTODO_LIST)
 
-# Build with KF6
-option(BUILD_WITH_KF6 "Build with KF6" ON)
-
 # Use translations as a Qt resource
 option(QMFILES_AS_RESOURCE "Use .qm files as Qt resource" ON)
