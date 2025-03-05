@@ -43,10 +43,8 @@ class DiagramPropertiesEditorDockWidget;
 class ElementsCollectionWidget;
 class AutoNumberingDockWidget;
 
-#ifdef BUILD_WITHOUT_KF6
-#else
-class KAutoSaveFile;
-#endif
+class AutoSaveFile;
+
 /**
 	This class represents the main window of the QElectroTech diagram editor and,
 	ipso facto, the most important part of the QElectroTech user interface.
@@ -69,10 +67,7 @@ class QETDiagramEditor : public QETMainWindow
 		ProjectView *currentProjectView() const;
 		QETProject *currentProject() const;
 		bool drawGrid() const;
-#ifdef BUILD_WITHOUT_KF6
-#else
-		void openBackupFiles (QList<KAutoSaveFile *> backup_files);
-#endif
+		void openBackupFiles (QList<AutoSaveFile *> backup_files);
 
 	  protected:
 		bool event(QEvent *) override;

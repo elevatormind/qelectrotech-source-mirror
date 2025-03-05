@@ -17,6 +17,7 @@
 */
 #include "qetapp.h"
 
+#include "autosavefile.h"
 #include "configdialog.h"
 #include "ui/configpage/configpages.h"
 #include "editor/ui/qetelementeditor.h"
@@ -45,10 +46,6 @@
 #define STRINGIFY(x) #x
 #include <QProcessEnvironment>
 #include <QRegularExpression>
-#ifdef BUILD_WITHOUT_KF6
-#else
-#	include <KAutoSaveFile>
-#endif
 
 #ifdef QET_ALLOW_OVERRIDE_CED_OPTION
 QString QETApp::m_overrided_common_elements_dir = QString();
@@ -2387,20 +2384,17 @@ void QETApp::buildSystemTrayMenu()
 */
 void QETApp::checkBackupFiles()
 {
-#ifdef BUILD_WITHOUT_KF6
-	return;
-#else
-	QList<KAutoSaveFile *> stale_files = KAutoSaveFile::allStaleFiles();
+	QList<AutoSaveFile *> stale_files = AutoSaveFile::allStaleFiles();
 
 	//Remove from the list @stale_files, the stales file of opened project
-	const QList<KAutoSaveFile *> sf = stale_files;
-	for (KAutoSaveFile *kasf : sf)
+	const QList<AutoSaveFile *> sf = stale_files;
+	for (AutoSaveFile *kasf : sf)
 	{
 		for (QETProject *project : registeredProjects().values())
 		{
 			/* We must adjust with the flag
 			 * QUrl::StripTrailingSlash to compare a path formatted
-			 * like the path returned by KAutoSaveFile
+			 * like the path returned by AutoSaveFile
 			 */
 			const QString path = QUrl::fromLocalFile(
 						project->filePath()).adjusted(
@@ -2424,7 +2418,7 @@ void QETApp::checkBackupFiles()
 		text.append(tr("<b>Les fichiers de restauration suivant on été trouvé,<br>"
 					   "Voulez-vous les ouvrir ?</b><br>"));
 	}
-	for(const KAutoSaveFile *kasf : stale_files)
+	for(AutoSaveFile *kasf : stale_files)
 	{
 #	ifdef Q_OS_WIN
 	//Remove the first character '/' before the name of the drive
@@ -2458,13 +2452,12 @@ void QETApp::checkBackupFiles()
 	else //Clear backup file
 	{
 		//Remove the stale files
-		for (KAutoSaveFile *stale : stale_files)
+		for (AutoSaveFile *stale : stale_files)
 		{
 			stale->open(QIODevice::ReadWrite);
 			delete stale;
 		}
 	}
-#endif
 }
 
 /**

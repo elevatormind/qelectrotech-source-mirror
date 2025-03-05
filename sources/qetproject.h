@@ -18,6 +18,7 @@
 #ifndef QET_PROJECT_H
 #define QET_PROJECT_H
 
+#include "autosavefile.h"
 #include "ElementsCollection/elementslocation.h"
 #include "NameList/nameslist.h"
 #include "project/projectpropertieshandler.h"
@@ -28,11 +29,6 @@
 #include "properties/xrefproperties.h"
 #include "titleblock/templatescollection.h"
 #include "titleblockproperties.h"
-
-#ifdef BUILD_WITHOUT_KF6
-#else
-#	include <KAutoSaveFile>
-#endif
 
 #include <QHash>
 
@@ -47,10 +43,7 @@ class XmlElementCollection;
 class QTimer;
 class TerminalStrip;
 
-#ifdef BUILD_WITHOUT_KF6
-#else
-class KAutoSaveFile;
-#endif
+class AutoSaveFile;
 
 /**
 	This class represents a QET project. Typically saved as a .qet file, it
@@ -78,10 +71,7 @@ class QETProject : public QObject
 	public:
 		QETProject (QObject *parent = nullptr);
 		QETProject (const QString &path, QObject * = nullptr);
-#ifdef BUILD_WITHOUT_KF6
-#else
-		QETProject (KAutoSaveFile *backup, QObject *parent=nullptr);
-#endif
+		QETProject (AutoSaveFile *backup, QObject *parent=nullptr);
 		~QETProject() override;
 
 	private:
@@ -287,10 +277,7 @@ class QETProject : public QObject
 		bool m_freeze_new_conductors = false;
 		QTimer m_save_backup_timer,
 			   m_autosave_timer;
-#ifdef BUILD_WITHOUT_KF6
-#else
-		KAutoSaveFile m_backup_file;
-#endif
+		AutoSaveFile m_backup_file;
 		QUuid m_uuid = QUuid::createUuid();
 		projectDataBase m_data_base;
 		QVector<TerminalStrip *> m_terminal_strip_vector;
