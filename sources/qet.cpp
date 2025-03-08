@@ -754,7 +754,7 @@ QActionGroup *QET::depthActionGroup(QObject *parent)
 	return action_group;
 }
 
-bool QET::writeToFile(QDomDocument &xml_doc, QFile *file, QString *error_message)
+bool QET::writeToFile(const QDomDocument &xml_doc, QFile *file, QString *error_message)
 {
 	bool opened_here = file->isOpen() ? false : true;
 
