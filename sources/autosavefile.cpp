@@ -18,48 +18,164 @@
 #include "autosavefile.h"
 
 #include <QDebug>
+#include <QDir>
+#include <QFile>
+#include <QStandardPaths>
+#include <QSaveFile>
 
 /**
-	@brief AutoSaveFile::AutoSaveFile
-	Simple constructor
-*/
+ * @brief Constructor for AutoSaveFile.
+ * 
+ * Creates a new autosave file in the application's data location.
+ * The file is opened in ReadWrite mode.
+ */
 AutoSaveFile::AutoSaveFile()
 {
-	qDebug() << "Creating AutoSaveFile";
+    // Create autosave file in app data directory with unique name
+	setFileTemplate(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) % QDir::separator() % "Autosave/qet_autosave_XXXXXX");
+	QDir().mkpath(fileTemplate().left(fileTemplate().lastIndexOf(QDir::separator())));
+
+	const auto status = open(QIODeviceBase::ReadWrite);
+	if(status == false)
+		qWarning() << "Failed to open AutoSaveFile";
+	else
+		qDebug() << "Creating AutoSaveFile: " << fileName();
 }
 
 /**
-	@brief AutoSaveFile::~AutoSaveFile
-	Simple destructor
-*/
+ * @brief Destructor for AutoSaveFile.
+ * 
+ * Cleans up the managed file pointer before destruction.
+ */
 AutoSaveFile::~AutoSaveFile()
 {
+	auto file = QFile(fileName() % ".managed_file");
+	if(file.exists())
+		file.remove();
+
 	qDebug() << "Destroying AutoSaveFile for file: " << m_managed_file.toString();
 }
 
 /**
-	@brief AutoSaveFile::managedFile
-	@return the managed file
-*/
-const QUrl AutoSaveFile::managedFile() {
+ * @brief Gets the URL of the file being managed.
+ * @return The URL of the managed file.
+ */
+const QUrl AutoSaveFile::managedFile() const {
 	return m_managed_file;
 }
 
 /**
-	@brief AutoSaveFile::setManagedFile
-	@param file the managed file
-*/
-
+ * @brief Sets the file to be managed by this autosave instance.
+ * @param file The URL of the file to manage.
+ */
 void AutoSaveFile::setManagedFile(const QUrl &file) {
 	m_managed_file = file;
+
+	createManagedFilePointer();
+
 	qDebug() << "Setting AutoSaveFile managed file: " << m_managed_file.toString();;
 }
 
 /**
-	@brief AutoSaveFile::allStaleFiles
-	@return the list of all stale files
-*/
+ * @brief Finds all stale autosave files in the application's data directory.
+ * 
+ * Scans for autosave files that weren't properly cleaned up and returns them
+ * as AutoSaveFile instances. Also performs cleanup of invalid files.
+ * 
+ * @return List of AutoSaveFile instances for stale files.
+ */
 QList<AutoSaveFile*> AutoSaveFile::allStaleFiles() {
 	QList<AutoSaveFile*> list;
+
+	auto asf_dir = QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) % QDir::separator() % "Autosave");
+
+	if(!asf_dir.exists())
+		return list;
+
+	// First pass: Clean up orphaned pointer files
+	for(const auto &ptr_filename : asf_dir.entryList(QStringList("*.managed_file"), QDir::Files, QDir::Unsorted)) {
+		auto ptr_file = QFile(asf_dir.absoluteFilePath(ptr_filename));
+		const auto asf_filename = ptr_filename.left(ptr_filename.lastIndexOf("."));
+		auto asf_file = QFile(asf_dir.absoluteFilePath(asf_filename));
+
+		if(asf_file.exists() && asf_file.size() == 0)
+			asf_file.remove();
+
+		if(!asf_file.exists()) {
+			qWarning() << "Removing stale pointer file: " << ptr_file.fileName();
+
+			ptr_file.remove();
+			continue;
+		}
+	}
+
+	// Second pass: Recover valid autosave files
+	for(const auto &asf_filename : asf_dir.entryList(QStringList("qet_autosave_*"), QDir::Files, QDir::Unsorted)) {
+		// Read and remove the autosave file
+		auto asf_file = QFile(asf_dir.absoluteFilePath(asf_filename));
+		asf_file.open(QIODeviceBase::ReadOnly);
+		QByteArray data = asf_file.readAll();
+		asf_file.close();
+		asf_file.remove();
+
+		// Skip if pointer file is missing or empty
+		auto ptr_file = QFile(asf_dir.absoluteFilePath(asf_filename % ".managed_file"));
+		if (!ptr_file.exists() || ptr_file.size() == 0) {
+			qWarning() << "Removing stale AutoSaveFile without pointer file: " << asf_filename;
+			continue;
+		}
+
+		// Create new autosave instance and restore content
+		auto asf = new AutoSaveFile();
+		asf->write(data);
+
+		ptr_file.open(QIODeviceBase::ReadOnly);
+		data = ptr_file.readAll();
+		ptr_file.close();
+		asf->setManagedFile(QUrl(QString::fromUtf8(data)));
+
+		qDebug() << "Found stale AutoSaveFile: " << asf->fileName() << " -> " << asf->managedFile().toString();
+
+		list.append(asf);
+	}
+
+
 	return list;
+}
+
+/**
+ * @brief Opens the autosave file.
+ * 
+ * Opens the temporary file and creates a pointer file to track the managed file.
+ * 
+ * @param mode The mode to open the file in.
+ * @return true if the file was successfully opened, false otherwise.
+ */
+bool AutoSaveFile::open(QIODeviceBase::OpenMode mode) {
+	const auto status = QTemporaryFile::open(mode);
+
+	createManagedFilePointer();
+
+	return status;
+}
+
+/**
+ * @brief Creates a pointer file to track the managed file.
+ * 
+ * Creates a separate file that stores the URL of the managed file.
+ * The pointer file has the same name as the autosave file with ".managed_file" appended.
+ * Does nothing if either the managed file URL or the autosave filename is empty.
+ */
+void AutoSaveFile::createManagedFilePointer() {
+    // Skip if we don't have valid file info
+	if (m_managed_file.isEmpty() || fileName().isEmpty())
+		return;
+
+    // Create pointer file with atomic save operation
+	auto file = QSaveFile(fileName() % ".managed_file");
+	file.open(QIODeviceBase::WriteOnly);
+	file.write(m_managed_file.toString().toUtf8());
+	file.commit();
+
+	qDebug() << "Creating managed file pointer: " << file.fileName() << " -> " << m_managed_file.toString();
 }

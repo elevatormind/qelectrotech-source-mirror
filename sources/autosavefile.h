@@ -19,24 +19,31 @@
 #define AUTOSAVEFILE_H
 
 #include <QList>
-#include <QFile>
+#include <QIODeviceBase>
+#include <QTemporaryFile>
 #include <QUrl>
 
 /**
 	@brief The AutoSaveFile class
+	Handles temporary files for autosaving purposes.
 */
-class AutoSaveFile : public QFile
+class AutoSaveFile : public QTemporaryFile
 {
+		Q_OBJECT
+
 	public:
     	AutoSaveFile();
 		~AutoSaveFile();
 
-		const QUrl managedFile();
+		const QUrl managedFile() const;
 		void setManagedFile(const QUrl &);
 		static QList<AutoSaveFile*>allStaleFiles();
+		virtual bool open(QIODeviceBase::OpenMode) override;
 
 	private:
+ 		/** @brief The URL of the file being managed by this AutoSaveFile instance. */
 		QUrl m_managed_file;
+		void createManagedFilePointer();
 };
 
 #endif
