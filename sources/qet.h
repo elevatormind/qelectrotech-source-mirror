@@ -181,7 +181,7 @@ namespace QET {
 	qreal correctAngle(const qreal &, const bool &positive = false);
 	bool compareCanonicalFilePaths(const QString &, const QString &);
 	bool writeXmlFile(QDomDocument &xml_doc, const QString &filepath, QString * error_message= nullptr);
-	bool writeToFile (QDomDocument &xml_doc, QFile *file, QString *error_message = nullptr);
+	bool writeToFile (const QDomDocument &xml_doc, QFile *file, QString *error_message = nullptr);
 	bool eachStrIsEqual (const QStringList &qsl);
 	QActionGroup *depthActionGroup(QObject *parent = nullptr);
 }
