@@ -1783,20 +1783,8 @@ void QETProject::addDiagram(Diagram *diagram, int pos)
 */
 void QETProject::writeBackup()
 {
-#ifdef BUILD_WITHOUT_KF6
-#else
-#	if QT_VERSION < QT_VERSION_CHECK(6, 0, 0) // ### Qt 6: remove
 	QDomDocument xml_project(toXml());
-	QtConcurrent::run(
-				QET::writeToFile,xml_project,&m_backup_file,nullptr);
-#	else
-#		if TODO_LIST
-#			pragma message("@TODO remove code for QT 6 or later")
-#		endif
-	qDebug() << "Help code for QT 6 or later"
-			 << "QtConcurrent::run its backwards now...function, object, args";
-#	endif
-#endif
+	QtConcurrent::run([=]{QET::writeToFile(xml_project, &m_backup_file, nullptr);});
 }
 
 /**
