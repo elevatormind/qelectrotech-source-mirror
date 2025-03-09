@@ -23,6 +23,10 @@
 #include <QTemporaryFile>
 #include <QUrl>
 
+#define AUTOSAVE_FILETEMPLATE_BASE "qet_autosave_"
+#define AUTOSAVE_FILETEMPLATE_RANDOM "XXXXXX"
+#define AUTOSAVE_MANAGED_FILE_SUFFIX ".managed_file"
+
 /**
 	@brief The AutoSaveFile class
 	Handles temporary files for autosaving purposes.

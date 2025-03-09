@@ -35,6 +35,7 @@ class QMainWindow;
 #define QETAPP_COMMON_TBT_PROTOCOL "commontbt"
 #define QETAPP_COMPANY_TBT_PROTOCOL "companytbt"
 #define QETAPP_CUSTOM_TBT_PROTOCOL "customtbt"
+#define QETAPP_AUTOSAVE_DIRNAME "autosave"
 
 class AboutQET;
 class QETDiagramEditor;
@@ -100,6 +101,7 @@ class QETApp : public QObject
 		static QString dataDir();
 		static QString documentDir();
 		static QString pictureDir();
+		static QString autosaveDir();
 		static QString languagesPath();
 		static QString realPath(const QString &);
 		static QString symbolicPath(const QString &);

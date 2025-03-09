@@ -928,6 +928,22 @@ QString QETApp::pictureDir()
 }
 
 /**
+	@brief QETApp::autosaveDir
+	Returns the standard-folder of autosave files.
+	This directory is generally
+	C:/Users/<USER>/AppData/Roaming/<APPNAME>/<QETAPP_AUTOSAVE_DIRNAME>
+	on Windows and
+	~/.local/share/<APPNAME>/<QETAPP_AUTOSAVE_DIRNAME>
+	under UNIX-like systems.
+	\~ @return The path of autosave folder
+*/
+QString QETApp::autosaveDir()
+{
+	QString autosavedir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) % QDir::separator() % QETAPP_AUTOSAVE_DIRNAME;
+	return autosavedir;
+}
+
+/**
 	@brief QETApp::realPath
 	Allows you to know the absolute path of the * .elmt file
 	corresponding to a symbolic path
