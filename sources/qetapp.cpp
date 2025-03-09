@@ -112,8 +112,12 @@ QETApp::QETApp() :
 	initSplashScreen();
 	initSystemTray();
 
-	connect(&signal_map, SIGNAL(mapped(QWidget *)),
-		this, SLOT(invertMainWindowVisibility(QWidget *)));
+	connect(&signal_map, &QSignalMapper::mappedObject,
+        this, [this](QObject *obj) {
+            if (auto *widget = qobject_cast<QWidget*>(obj)) {
+                invertMainWindowVisibility(widget);
+            }
+        });
 	qApp->setQuitOnLastWindowClosed(false);
 	connect(qApp, &QApplication::lastWindowClosed,
 		this, &QETApp::checkRemainingWindows);
