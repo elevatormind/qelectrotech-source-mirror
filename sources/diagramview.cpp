@@ -93,7 +93,10 @@ DiagramView::DiagramView(Diagram *diagram, QWidget *parent) :
 
 	connect(m_diagram, SIGNAL(showDiagram(Diagram*)), this, SIGNAL(showDiagram(Diagram*)));
 	connect(m_diagram, SIGNAL(sceneRectChanged(QRectF)), this, SLOT(adjustSceneRect()));
-	connect(&(m_diagram -> border_and_titleblock), SIGNAL(diagramTitleChanged(const QString &)), this, SLOT(updateWindowTitle()));
+	// TODO: review the following line. Old line commented out, been broken since commit
+	// "27dcd5ef007a282d1a5a7f2f3dcaefc62669d668".
+	// connect(&(m_diagram -> border_and_titleblock), SIGNAL(diagramTitleChanged(const QString &)), this, SLOT(updateWindowTitle()));
+	connect(&(m_diagram->border_and_titleblock), &BorderTitleBlock::informationChanged, this, &DiagramView::updateWindowTitle);
 	connect(diagram, SIGNAL(findElementRequired(ElementsLocation)), this, SIGNAL(findElementRequired(ElementsLocation)));
 
 	QShortcut *edit_conductor_color_shortcut = new QShortcut(QKeySequence(Qt::Key_F2), this);

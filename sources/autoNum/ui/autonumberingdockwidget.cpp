@@ -100,10 +100,14 @@ void AutoNumberingDockWidget::setProject(QETProject *project,
 			    this,SLOT(folioAutoNumChanged()));
 		disconnect (m_project,SIGNAL(folioAutoNumAdded()),
 			    this,SLOT(folioAutoNumChanged()));
-		disconnect (this,
-			    SIGNAL(folioAutoNumChanged(QString)),
-			    &m_project_view->currentDiagram()->diagram()->border_and_titleblock,
-			    SLOT (slot_setAutoPageNum(QString)));
+
+// TODO: review this commented code. "slot_setAutoPageNum()" not used anymore according to commit
+// "471f87690c7412b83c7981153cca9502d51c9561"
+//		disconnect (this,
+//			    SIGNAL(folioAutoNumChanged(QString)),
+//			    &m_project_view->currentDiagram()->diagram()->border_and_titleblock,
+//			    SLOT (slot_setAutoPageNum(QString)));
+
 		disconnect(m_project, SIGNAL(defaultTitleBlockPropertiesChanged()),
 			   this,SLOT(setActive()));
 	
@@ -137,10 +141,14 @@ void AutoNumberingDockWidget::setProject(QETProject *project,
 		 this,SLOT(folioAutoNumChanged()));
 	connect (m_project,SIGNAL(folioAutoNumAdded()),
 		 this,SLOT(folioAutoNumChanged()));
-	connect (this,
-		 SIGNAL(folioAutoNumChanged(QString)),
-		 &m_project_view->currentDiagram()->diagram()->border_and_titleblock,
-		 SLOT (slot_setAutoPageNum(QString)));
+
+// TODO: review this commented code. "slot_setAutoPageNum()" not used anymore according to commit
+// "471f87690c7412b83c7981153cca9502d51c9561"
+//	 connect (this,
+//		 SIGNAL(folioAutoNumChanged(QString)),
+//		 &m_project_view->currentDiagram()->diagram()->border_and_titleblock,
+//		 SLOT (slot_setAutoPageNum(QString)));
+
 	connect(m_project, SIGNAL(defaultTitleBlockPropertiesChanged()),
 		this,SLOT(setActive()));
 
