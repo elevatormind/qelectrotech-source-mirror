@@ -24,13 +24,6 @@
 
 #include "ui_projectprintwindow.h"
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0) // ### Qt 6: remove
-#	include <QDesktopWidget>
-#else
-#	if TODO_LIST
-#		pragma message("@TODO remove code for QT 6 or later")
-#	endif
-#endif
 #include <QMarginsF>
 #include <QPageSetupDialog>
 #include <QPainter>
@@ -50,14 +43,7 @@ void ProjectPrintWindow::launchDialog(QETProject *project, QPrinter::OutputForma
 	auto printer_ = new QPrinter();
 	QPrinter printer(QPrinter::HighResolution);
 	printer_->setDocName(ProjectPrintWindow::docName(project));
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 1) // ### Qt 6: remove
-	printer_->setOrientation(QPrinter::Landscape);
-#else
-#if TODO_LIST
-#pragma message("@TODO remove code for QT 6 or later")
-#	endif
 	printer_->setPageOrientation(QPageLayout::Landscape);
-#endif
 
 	if (format == QPrinter::NativeFormat) //To physical printer
 	{
@@ -191,23 +177,21 @@ ProjectPrintWindow::~ProjectPrintWindow()
  */
 void ProjectPrintWindow::requestPaint()
 {
-	#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
-		#ifdef Q_OS_WIN
-			#ifdef QT_DEBUG
-			qDebug() << "--";
-			qDebug() << "DiagramPrintDialog::print  printer_->resolution() before " << m_printer->resolution();
-			qDebug() << "DiagramPrintDialog::print  screennumber " << QApplication::desktop()->screenNumber();
-			#endif
+	#ifdef Q_OS_WIN
+		#ifdef QT_DEBUG
+		qDebug() << "--";
+		qDebug() << "DiagramPrintDialog::print  printer_->resolution() before " << m_printer->resolution();
+		qDebug() << "DiagramPrintDialog::print  screennumber " << QApplication::desktop()->screenNumber();
+		#endif
 
-			QScreen *srn = QApplication::screens().at(QApplication::desktop()->screenNumber());
-			qreal dotsPerInch = (qreal)srn->logicalDotsPerInch();
-			m_printer->setResolution(dotsPerInch);
+		QScreen *srn = QApplication::screens().at(QApplication::desktop()->screenNumber());
+		qreal dotsPerInch = (qreal)srn->logicalDotsPerInch();
+		m_printer->setResolution(dotsPerInch);
 
-			#ifdef QT_DEBUG
-				qDebug() << "DiagramPrintDialog::print  dotsPerInch " << dotsPerInch;
-				qDebug() << "DiagramPrintDialog::print  printer_->resolution() after" << m_printer->resolution();
-			qDebug() << "--";
-			#endif
+		#ifdef QT_DEBUG
+			qDebug() << "DiagramPrintDialog::print  dotsPerInch " << dotsPerInch;
+			qDebug() << "DiagramPrintDialog::print  printer_->resolution() after" << m_printer->resolution();
+		qDebug() << "--";
 		#endif
 	#endif
 
@@ -359,17 +343,10 @@ int ProjectPrintWindow::horizontalPagesCount(
 		Diagram *diagram, const ExportProperties &option, bool full_page) const
 {
 	QRect printable_area;
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 1) // ### Qt 6: remove
-	printable_area = full_page ? m_printer->paperRect() : m_printer->pageRect();
-#else
-#if TODO_LIST
-#pragma message("@TODO remove code for QT 6 or later")
-#	endif
 	printable_area =
 		full_page ?
 			m_printer->pageLayout().fullRectPixels(m_printer->resolution()) :
 			m_printer->pageLayout().paintRectPixels(m_printer->resolution());
-#endif
 	QRect diagram_rect = diagramRect(diagram, option);
 
 	int h_pages_count = int(ceil(qreal(diagram_rect.width()) / qreal(printable_area.width())));
@@ -388,17 +365,10 @@ int ProjectPrintWindow::verticalPagesCount(
 		Diagram *diagram, const ExportProperties &option, bool full_page) const
 {
 	QRect printable_area;
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 1) // ### Qt 6: remove
-	printable_area = full_page ? m_printer->paperRect() : m_printer->pageRect();
-#else
-#if TODO_LIST
-#pragma message("@TODO remove code for QT 6 or later")
-#	endif
 	printable_area =
 		full_page ?
 			m_printer->pageLayout().fullRectPixels(m_printer->resolution()) :
 			m_printer->pageLayout().paintRectPixels(m_printer->resolution());
-#endif
 	QRect diagram_rect = diagramRect(diagram, option);
 
 	int v_pages_count = int(ceil(qreal(diagram_rect.height()) / qreal(printable_area.height())));
