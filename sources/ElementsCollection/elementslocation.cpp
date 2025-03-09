@@ -655,6 +655,11 @@ QDomElement ElementsLocation::xml() const
 	if (!m_project)
 	{
 		QFile file (m_file_system_path);
+		if(!file.open(QIODevice::ReadOnly))
+		{
+			qWarning() << "Can't open element xml-file: " << m_file_system_path;
+			return QDomElement();
+		};
 		QDomDocument docu;
 		if (docu.setContent(&file))
 			return docu.documentElement();
