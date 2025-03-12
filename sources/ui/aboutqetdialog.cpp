@@ -189,7 +189,6 @@ void AboutQETDialog::setAnnexProject()
 */
 void AboutQETDialog::setLibraries()
 {
-	addLibrary(ui->m_libraries_label, "KDE lib",            "https://api.kde.org");
 	addLibrary(ui->m_libraries_label, "Single application", "https://github.com/itay-grudev/SingleApplication");
 	addLibrary(ui->m_libraries_label, "pugixml",            "https://pugixml.org");
 }
