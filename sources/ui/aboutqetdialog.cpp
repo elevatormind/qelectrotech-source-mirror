@@ -42,6 +42,7 @@ AboutQETDialog::AboutQETDialog(QWidget *parent) :
 	setAnnexProject();
 	setLibraries();
 	setLicence();
+	setAdditionalLicences();
 	setLoginfo();
 }
 
@@ -203,6 +204,14 @@ void AboutQETDialog::setLicence()
 }
 
 /**
+	@brief AboutQETDialog::setAdditionalLicences
+*/
+void AboutQETDialog::setAdditionalLicences()
+{
+	ui->m_add_licenses_comboBox->addItem("liberation-fonts");
+}
+
+/**
 	@brief AboutQETDialog::setLoginfo
 	fills the m_log_comboBox with log files
 */
@@ -255,6 +264,23 @@ void AboutQETDialog::addLibrary(QLabel *label, const QString &name, const QStrin
 		// Add the function of the person
 	new_text += Library_template.arg(name).arg(link);
 	label->setText(new_text);
+}
+
+/**
+    @brief Updates the displayed license text when a different license is selected
+    
+    This slot is called when the user selects a different license in the 
+    additional licenses combo box. It retrieves the selected license text
+    from QET's license collection and displays it in the text edit widget.
+    
+    @param license_name The identifier of the selected license 
+           (e.g., "liberation-fonts")
+*/
+void AboutQETDialog::on_m_add_licenses_comboBox_currentTextChanged(
+        const QString &license_name)
+{
+    ui->m_add_licenses_textEdit->setPlainText(
+        QET::additionalLicense(license_name));
 }
 
 void AboutQETDialog::on_m_log_comboBox_currentTextChanged(const QString &arg1)

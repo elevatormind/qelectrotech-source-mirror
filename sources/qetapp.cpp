@@ -43,6 +43,7 @@
 #include <iostream>
 #define QUOTE(x) STRINGIFY(x)
 #define STRINGIFY(x) #x
+#include <QFontDatabase>
 #include <QProcessEnvironment>
 #include <QRegularExpression>
 #ifdef BUILD_WITHOUT_KF5
@@ -111,6 +112,7 @@ QETApp::QETApp() :
 	initConfiguration();
 	initLanguage();
 	QET::Icons::initIcons();
+	initFonts();
 	initStyle();
 	initSplashScreen();
 	initSystemTray();
@@ -2096,6 +2098,34 @@ void QETApp::setSplashScreenStep(const QString &message) {
 void QETApp::initLanguage()
 {
 	setLanguage(langFromSetting());
+}
+
+/**
+	@brief QETApp::initFonts
+	Setup the fonts to use in the application
+*/
+void QETApp::initFonts()
+{
+	QStringList fonts = {
+		":/fonts/LiberationMono-Regular.ttf",
+		":/fonts/LiberationMono-Bold.ttf",
+		":/fonts/LiberationMono-Italic.ttf",
+		":/fonts/LiberationMono-BoldItalic.ttf",
+		":/fonts/LiberationSans-Regular.ttf",
+		":/fonts/LiberationSans-Bold.ttf",
+		":/fonts/LiberationSans-Italic.ttf",
+		":/fonts/LiberationSans-BoldItalic.ttf",
+		":/fonts/LiberationSerif-Regular.ttf",
+		":/fonts/LiberationSerif-Bold.ttf",
+		":/fonts/LiberationSerif-Italic.ttf",
+		":/fonts/LiberationSerif-BoldItalic.ttf"
+	};
+
+	for (const QString &font : fonts) {
+		if (QFontDatabase::addApplicationFont(font) == -1) {
+			qWarning() << "Failed to load font:" << font;
+		}
+	}
 }
 
 /**

@@ -740,5 +740,18 @@
         <file>ico/22x22/color/color-11-gray-09-darkslategray.png</file>
         <file>ico/22x22/color/color-11-gray-10-black.png</file>
         <file>ico/24x16/zh.png</file>
+        <file>fonts/LiberationMono-Regular.ttf</file>
+	    <file>fonts/LiberationMono-Bold.ttf</file>
+	    <file>fonts/LiberationMono-Italic.ttf</file>
+	    <file>fonts/LiberationMono-BoldItalic.ttf</file>
+	    <file>fonts/LiberationSans-Regular.ttf</file>
+	    <file>fonts/LiberationSans-Bold.ttf</file>
+	    <file>fonts/LiberationSans-Italic.ttf</file>
+	    <file>fonts/LiberationSans-BoldItalic.ttf</file>
+	    <file>fonts/LiberationSerif-Regular.ttf</file>
+	    <file>fonts/LiberationSerif-Bold.ttf</file>
+	    <file>fonts/LiberationSerif-Italic.ttf</file>
+	    <file>fonts/LiberationSerif-BoldItalic.ttf</file>
+	    <file>fonts/liberation-fonts.LICENSE</file>
     </qresource>
 </RCC>

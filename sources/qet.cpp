@@ -419,6 +419,34 @@ QString QET::license()
 	return(txt_license);
 };
 
+/**
+    @brief Retrieves the text of an additional license for a specific component
+    @param name The identifier of the license to retrieve (e.g., "liberation-fonts")
+    @return The text content of the specified license file. Returns empty string if license not found.
+    
+    This function manages additional licenses for third-party components used in QElectroTech.
+    Currently supported licenses:
+    - "liberation-fonts": License for Liberation Fonts
+*/
+QString QET::additionalLicense(const QString &name)
+{
+    // Map of supported license identifiers to their resource paths
+    const QMap<QString, QString> licenses = {
+        {"liberation-fonts", ":/fonts/liberation-fonts.LICENSE"}
+    };
+
+    // Find the license file path
+	const QString &license_filename = licenses.value(name, QString());
+	QFile license_file(license_filename);
+
+    // Read and return the license content
+    license_file.open(QIODevice::ReadOnly | QIODevice::Text);
+    auto license_text = QString();
+	QTextStream in(&license_file);
+	license_text = in.readAll();
+    license_file.close();
+    return license_text;
+}
 
 /**
 	@return la liste des caracteres interdits dans les noms de fichiers sous
