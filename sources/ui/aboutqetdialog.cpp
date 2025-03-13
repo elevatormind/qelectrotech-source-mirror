@@ -209,6 +209,7 @@ void AboutQETDialog::setLicence()
 void AboutQETDialog::setAdditionalLicences()
 {
 	ui->m_add_licenses_comboBox->addItem("liberation-fonts");
+	ui->m_add_licenses_comboBox->addItem("osifont");
 }
 
 /**
@@ -273,14 +274,14 @@ void AboutQETDialog::addLibrary(QLabel *label, const QString &name, const QStrin
     additional licenses combo box. It retrieves the selected license text
     from QET's license collection and displays it in the text edit widget.
     
-    @param license_name The identifier of the selected license 
-           (e.g., "liberation-fonts")
+    @param license_name The identifier of the selected license
 */
 void AboutQETDialog::on_m_add_licenses_comboBox_currentTextChanged(
         const QString &license_name)
 {
-    ui->m_add_licenses_textEdit->setPlainText(
-        QET::additionalLicense(license_name));
+	std::tuple<QString, QString> license_info = QET::additionalLicense(license_name);
+    ui->m_add_licenses_notice_textEdit->setPlainText(std::get<0>(license_info));
+    ui->m_add_licenses_license_textEdit->setPlainText(std::get<1>(license_info));
 }
 
 void AboutQETDialog::on_m_log_comboBox_currentTextChanged(const QString &arg1)

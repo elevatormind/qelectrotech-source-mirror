@@ -26,6 +26,7 @@
 #include <QTextStream>
 #include <QRegularExpression>
 #include <QActionGroup>
+#include <QStringBuilder>
 
 /**
 	Permet de convertir une chaine de caracteres ("n", "s", "e" ou "w")
@@ -421,31 +422,37 @@ QString QET::license()
 
 /**
     @brief Retrieves the text of an additional license for a specific component
-    @param name The identifier of the license to retrieve (e.g., "liberation-fonts")
-    @return The text content of the specified license file. Returns empty string if license not found.
+    @param name The identifier of the license to retrieve
+    @return A tuple containing <notice_text, license_text> for the requested license
     
     This function manages additional licenses for third-party components used in QElectroTech.
     Currently supported licenses:
     - "liberation-fonts": License for Liberation Fonts
+    - "osifont": License for osifont
 */
-QString QET::additionalLicense(const QString &name)
+std::tuple<QString, QString> QET::additionalLicense(const QString &name)
 {
     // Map of supported license identifiers to their resource paths
     const QMap<QString, QString> licenses = {
-        {"liberation-fonts", ":/fonts/liberation-fonts.LICENSE"}
+        {"liberation-fonts", ":/fonts/liberation-fonts"},
+		{"osifont", ":/fonts/osifont"}
     };
 
-    // Find the license file path
-	const QString &license_filename = licenses.value(name, QString());
-	QFile license_file(license_filename);
+    // Get base path for the license files
+	const QString base_path = licenses.value(name);
+	QFile license_file(base_path % QString(".LICENSE"));
+	QFile notice_file(base_path % QString(".NOTICE"));
 
-    // Read and return the license content
-    license_file.open(QIODevice::ReadOnly | QIODevice::Text);
-    auto license_text = QString();
-	QTextStream in(&license_file);
-	license_text = in.readAll();
-    license_file.close();
-    return license_text;
+    // Helper lambda to read file content
+    auto readFile = [](QFile &file) -> QString {
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        QTextStream stream(&file);
+        QString content = stream.readAll();
+        file.close();
+        return content;
+    };
+
+    return std::make_tuple(readFile(notice_file), readFile(license_file));
 }
 
 /**

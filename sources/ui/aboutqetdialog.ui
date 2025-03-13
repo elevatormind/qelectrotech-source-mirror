@@ -533,7 +533,21 @@
         <widget class="QComboBox" name="m_add_licenses_comboBox"/>
        </item>
        <item>
-        <widget class="QTextEdit" name="m_add_licenses_textEdit"/>
+        <widget class="QTextEdit" name="m_add_licenses_notice_textEdit">
+         <property name="documentTitle">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextEdit" name="m_add_licenses_license_textEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

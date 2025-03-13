@@ -29,7 +29,7 @@ class QActionGroup;
 */
 namespace QET {
 	QString license();
-	QString additionalLicense(const QString &);
+	std::tuple<QString, QString> additionalLicense(const QString &);
 	
 		//Describe the current state of a graphic item
 	enum GraphicsItemState {
