@@ -2107,6 +2107,9 @@ void QETApp::initLanguage()
 void QETApp::initFonts()
 {
 	QStringList fonts = {
+
+        /** "Liberation Fonts" Font Software is licensed under the SIL Open Font License, Version 1.1
+            See the file "fonts/liberation-fonts.LICENSE" for license information. */
 		":/fonts/LiberationMono-Regular.ttf",
 		":/fonts/LiberationMono-Bold.ttf",
 		":/fonts/LiberationMono-Italic.ttf",

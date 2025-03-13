@@ -740,6 +740,9 @@
         <file>ico/22x22/color/color-11-gray-09-darkslategray.png</file>
         <file>ico/22x22/color/color-11-gray-10-black.png</file>
         <file>ico/24x16/zh.png</file>
+
+        <!-- "Liberation Fonts" Font Software is licensed under the SIL Open Font License, Version 1.1 -->
+        <!-- See the file "fonts/liberation-fonts.LICENSE" for license information. -->
         <file>fonts/LiberationMono-Regular.ttf</file>
 	    <file>fonts/LiberationMono-Bold.ttf</file>
 	    <file>fonts/LiberationMono-Italic.ttf</file>
