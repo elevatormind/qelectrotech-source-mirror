@@ -2122,7 +2122,7 @@ void QETApp::initFonts()
 		":/fonts/LiberationSerif-Regular.ttf",
 		":/fonts/LiberationSerif-Bold.ttf",
 		":/fonts/LiberationSerif-Italic.ttf",
-		":/fonts/LiberationSerif-BoldItalic.ttf"
+		":/fonts/LiberationSerif-BoldItalic.ttf",
 
         /** "osifont" Font Software is licensed under the GNU GENERAL PUBLIC LICENSE, Version 3
 		    As a special exception, if you create a document which uses this font, and embed this font or unaltered
