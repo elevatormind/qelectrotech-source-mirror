@@ -31,7 +31,7 @@ add_definitions(-DQT_MESSAGELOGCONTEXT)
 # In order to do so, uncomment the following line.
 #add_definitions(-DTODO_LIST)
 
-# Build with KDE Frameworks. 
+# Build with KDE Frameworks.
 option(BUILD_WITH_KF "Build with KDE Frameworks" ON)
 
 # Precompiled headers for the Qt umbrella headers.
@@ -47,3 +47,11 @@ option(BUILD_WITH_KF "Build with KDE Frameworks" ON)
 # compile for everyone else. Leaving it off keeps CI and contributors on the
 # strict behaviour, and only developers who opt in trade that for the speed.
 option(QET_ENABLE_PCH "Use precompiled headers (developer build speed; may mask missing #includes)" OFF)
+
+# Use ccache to accelerate compilation.
+#
+# Off by default: ccache is not available on all platforms, and may not be
+# installed by default.
+#
+# Requires ccache to be installed separately.
+option(QET_USE_CCACHE "Use ccache to accelerate compilation" OFF)
