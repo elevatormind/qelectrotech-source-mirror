@@ -507,10 +507,6 @@ set(QET_SRC_FILES
   ${QET_DIR}/sources/PropertiesEditor/propertieseditorwidget.cpp
   ${QET_DIR}/sources/PropertiesEditor/propertieseditorwidget.h
 
-  ${QET_DIR}/pugixml/src/pugiconfig.hpp
-  ${QET_DIR}/pugixml/src/pugixml.cpp
-  ${QET_DIR}/pugixml/src/pugixml.hpp
-
   ${QET_DIR}/sources/qetgraphicsitem/conductor.cpp
   ${QET_DIR}/sources/qetgraphicsitem/conductor.h
   ${QET_DIR}/sources/qetgraphicsitem/conductortextitem.cpp
@@ -707,6 +703,8 @@ set(QET_SRC_FILES
   ${QET_DIR}/sources/ui/conductorpropertiesdialog.h
   ${QET_DIR}/sources/ui/conductorcolortoolbutton.cpp
   ${QET_DIR}/sources/ui/conductorcolortoolbutton.h
+  ${QET_DIR}/sources/ui/diagrambgcolorbutton.cpp
+  ${QET_DIR}/sources/ui/diagrambgcolorbutton.h
   ${QET_DIR}/sources/ui/conductorpropertieswidget.cpp
   ${QET_DIR}/sources/ui/conductorpropertieswidget.h
   ${QET_DIR}/sources/ui/configsaveloaderwidget.cpp
