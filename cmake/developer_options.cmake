@@ -48,10 +48,15 @@ option(BUILD_WITH_KF "Build with KDE Frameworks" ON)
 # strict behaviour, and only developers who opt in trade that for the speed.
 option(QET_ENABLE_PCH "Use precompiled headers (developer build speed; may mask missing #includes)" OFF)
 
-# Use ccache to accelerate compilation.
+# Autodetect ccache to accelerate compilation.
 #
 # Off by default: ccache is not available on all platforms, and may not be
 # installed by default.
 #
-# Requires ccache to be installed separately.
-option(QET_USE_CCACHE "Use ccache to accelerate compilation" OFF)
+# Requires ccache to be installed separately and be able to be found by
+# find_program().
+# CMAKE_C_COMPILER_LAUNCHER and CMAKE_CXX_COMPILER_LAUNCHER will be set to
+# ccache if it is found, and overridden if set by the user.
+# If ccache is not found, CMAKE_C_COMPILER_LAUNCHER and
+# CMAKE_CXX_COMPILER_LAUNCHER will be used as supplied by the user.
+option(QET_AUTODETECT_CCACHE "Autodetect ccache to accelerate compilation" OFF)
