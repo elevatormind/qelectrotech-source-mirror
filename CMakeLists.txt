@@ -40,9 +40,7 @@ include(cmake/find_spacemouse.cmake)
 include(cmake/qet_compilation_vars.cmake)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
 SET(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -51,6 +49,7 @@ find_package(
     COMPONENTS
     ${QET_COMPONENTS}
     REQUIRED)
+qt_standard_project_setup()
 
 # <private/qpdf_p.h> (QPdfEngine::drawHyperlink) needs Qt's private GUI module.
 # Qt >= 6.7 ships it as a proper find_package component, but some distro
