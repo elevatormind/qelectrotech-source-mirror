@@ -358,6 +358,16 @@ install(TARGETS ${PROJECT_NAME}
     BUNDLE DESTINATION .
 )
 
+if(WIN32)
+    # If the SQLite .dll needs to be installed and is not in the build
+    # directory, set SQLite3_DLL to the path of the SQLite .dll
+    set(SQLite3_DLL "" CACHE FILEPATH
+        "Path to SQLite DLL to be installed with QET")
+    if(SQLite3_DLL)
+        install(FILES ${SQLite3_DLL} DESTINATION ${QET_BINARY_PATH})
+    endif()
+endif()
+
 if (NOT MINGW)
     install(DIRECTORY ico/breeze-icons/16x16   DESTINATION ${QET_ICONS_PATH})
     install(DIRECTORY ico/breeze-icons/22x22   DESTINATION ${QET_ICONS_PATH})
