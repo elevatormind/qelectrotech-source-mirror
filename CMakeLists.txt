@@ -405,3 +405,5 @@ if(UNIX AND NOT APPLE)
 endif()
 
 install(FILES ${QM_FILES} DESTINATION ${QET_LANG_PATH})
+
+add_subdirectory(cpack)
