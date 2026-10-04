@@ -619,10 +619,10 @@ add_executable(
   tst_junctiondots
   tst_junctiondots.cpp)
 add_test(NAME tst_junctiondots COMMAND tst_junctiondots)
-add_dependencies(tst_junctiondots qelectrotech)
+add_dependencies(tst_junctiondots QElectroTech)
 target_link_libraries(tst_junctiondots PRIVATE Qt::Test)
 target_compile_definitions(tst_junctiondots PRIVATE
-  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\"")
+  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\"")
 
 # With SOURCE_DATE_EPOCH set, --export-pdf writes the same bytes for the
 # same project in every run. Exports examples/741.qet several times, in
@@ -872,10 +872,10 @@ if(QET_HAS_SCRIPTING)
     tst_elementautonumids
     tst_elementautonumids.cpp)
   add_test(NAME tst_elementautonumids COMMAND tst_elementautonumids)
-  add_dependencies(tst_elementautonumids qelectrotech)
+  add_dependencies(tst_elementautonumids QElectroTech)
   target_link_libraries(tst_elementautonumids PRIVATE Qt::Test Qt::Xml)
   target_compile_definitions(tst_elementautonumids PRIVATE
-    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\""
+    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\""
     "QET_EXAMPLES_DIR=\"${QET_DIR}/examples\"")
 endif()
 
