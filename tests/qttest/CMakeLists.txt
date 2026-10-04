@@ -972,3 +972,12 @@ if(Qt6_VERSION VERSION_LESS 6.5.0)
     endif()
   endforeach()
 endif()
+# MSVC: Add Qt dll directory to PATH environment variable
+if(MSVC)
+    get_property(all_tests DIRECTORY PROPERTY TESTS)
+    if(all_tests)
+        set_tests_properties(${all_tests} PROPERTIES
+            ENVIRONMENT "PATH=$<TARGET_FILE_DIR:Qt${QT_VERSION_MAJOR}::Core>;$ENV{PATH}"
+        )
+    endif()
+endif()
