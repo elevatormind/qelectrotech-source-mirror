@@ -145,19 +145,18 @@ endif()
 # als laatse
 include(cmake/define_definitions.cmake)
 
-# On Windows, WIN32 sets /SUBSYSTEM:WINDOWS to suppress the console window.
-# Qt automatically links qtmain.lib which provides the WinMain entry point,
-# so no source code change is needed.
+add_executable(
+    ${PROJECT_NAME}
+    WIN32
+    MACOSX_BUNDLE
+    ${QET_RES_FILES}
+    ${QET_SRC_FILES}
+    ${QM_FILES}
+    ${QET_DIR}/qelectrotech.qrc
+    ${QET_DIR}/ico/icon-themes.qrc
+)
+
 if(WIN32)
-    add_executable(
-        ${PROJECT_NAME}
-        WIN32
-        ${QET_RES_FILES}
-        ${QET_SRC_FILES}
-        ${QM_FILES}
-        ${QET_DIR}/qelectrotech.qrc
-        ${QET_DIR}/ico/icon-themes.qrc
-    )
     # Our own manifest (it declares longPathAware). MSVC merges a .manifest
     # listed as a source; MinGW needs it embedded through a resource file,
     # and ld then keeps it ahead of the toolchain's default manifest.
@@ -170,15 +169,6 @@ if(WIN32)
         target_sources(${PROJECT_NAME} PRIVATE
                        ${CMAKE_CURRENT_BINARY_DIR}/qelectrotech-manifest.rc)
     endif()
-else()
-    add_executable(
-        ${PROJECT_NAME}
-        ${QET_RES_FILES}
-        ${QET_SRC_FILES}
-        ${QM_FILES}
-        ${QET_DIR}/qelectrotech.qrc
-        ${QET_DIR}/ico/icon-themes.qrc
-    )
 endif()
 
 if(QET_SPACEMOUSE_BACKEND_SPNAV_ENABLED)
@@ -198,7 +188,6 @@ if(APPLE)
     # string without a panel ever appearing, so File > Open and File > Save
     # as do nothing at all.
     set_target_properties(${PROJECT_NAME} PROPERTIES
-        MACOSX_BUNDLE TRUE
         MACOSX_BUNDLE_GUI_IDENTIFIER "org.qelectrotech.QElectroTech"
         MACOSX_BUNDLE_BUNDLE_NAME "QElectroTech"
         MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION}"
