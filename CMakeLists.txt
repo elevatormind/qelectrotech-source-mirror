@@ -356,7 +356,15 @@ endif()
 
 install(TARGETS ${PROJECT_NAME}
     BUNDLE DESTINATION .
+    RUNTIME DESTINATION ${QET_BINARY_PATH}
 )
+
+qt_generate_deploy_app_script(
+    TARGET ${PROJECT_NAME}
+    OUTPUT_SCRIPT deploy_script
+    NO_UNSUPPORTED_PLATFORM_ERROR
+)
+install(SCRIPT ${deploy_script})
 
 if(WIN32)
     # If the SQLite .dll needs to be installed and is not in the build
