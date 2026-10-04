@@ -18,7 +18,13 @@ include(cmake/hoto_update_cmake_message.cmake)
 
 cmake_minimum_required(VERSION 3.5...4.2)
 
-project(qelectrotech
+if(WIN32)
+    set(QET_PACKAGE_NAME "QElectroTech")
+else()
+    set(QET_PACKAGE_NAME "qelectrotech")
+endif()
+
+project(QElectroTech
         VERSION 0.200.1
         DESCRIPTION "QET is a CAD/CAE editor focusing on schematics drawing features."
         HOMEPAGE_URL "https://qelectrotech.org/"
@@ -365,26 +371,37 @@ if(WIN32)
     endif()
 endif()
 
-if (NOT MINGW)
-    install(DIRECTORY ico/breeze-icons/16x16   DESTINATION ${QET_ICONS_PATH})
-    install(DIRECTORY ico/breeze-icons/22x22   DESTINATION ${QET_ICONS_PATH})
-    install(DIRECTORY ico/breeze-icons/32x32   DESTINATION ${QET_ICONS_PATH})
-    install(DIRECTORY ico/breeze-icons/48x48   DESTINATION ${QET_ICONS_PATH})
-    install(DIRECTORY ico/breeze-icons/64x64   DESTINATION ${QET_ICONS_PATH})
-    install(DIRECTORY ico/breeze-icons/128x128 DESTINATION ${QET_ICONS_PATH})
-    install(DIRECTORY ico/breeze-icons/256x256 DESTINATION ${QET_ICONS_PATH})
-    install(DIRECTORY elements    DESTINATION share/qelectrotech)
-    install(DIRECTORY examples    DESTINATION share/qelectrotech)
-    install(DIRECTORY titleblocks DESTINATION share/qelectrotech)
-    # The MCP server (misc/qet-mcp) finds this QElectroTech and its elements
-    # from here: <prefix>/share/qelectrotech/mcp -> <prefix>/bin.
-    install(PROGRAMS misc/qet-mcp/qet_mcp.py DESTINATION share/qelectrotech/mcp)
-    install(FILES misc/qet-mcp/README.md DESTINATION share/qelectrotech/mcp)
-    install(FILES LICENSE ELEMENTS.LICENSE CREDIT README ChangeLog DESTINATION share/doc/qelectrotech)
-    if(UNIX AND NOT APPLE)
-        install(FILES misc/org.qelectrotech.qelectrotech.desktop DESTINATION share/applications)
-        install(FILES misc/qelectrotech.xml    DESTINATION ${QET_MIME_PACKAGE_PATH})
-        install(FILES misc/qelectrotech.appdata.xml DESTINATION ${QET_APPDATA_PATH})
-    endif()
-    install(FILES ${QM_FILES} DESTINATION ${QET_LANG_PATH})
+install(DIRECTORY ico/breeze-icons/16x16   DESTINATION ${QET_ICONS_PATH})
+install(DIRECTORY ico/breeze-icons/22x22   DESTINATION ${QET_ICONS_PATH})
+install(DIRECTORY ico/breeze-icons/32x32   DESTINATION ${QET_ICONS_PATH})
+install(DIRECTORY ico/breeze-icons/48x48   DESTINATION ${QET_ICONS_PATH})
+install(DIRECTORY ico/breeze-icons/64x64   DESTINATION ${QET_ICONS_PATH})
+install(DIRECTORY ico/breeze-icons/128x128 DESTINATION ${QET_ICONS_PATH})
+install(DIRECTORY ico/breeze-icons/256x256 DESTINATION ${QET_ICONS_PATH})
+install(DIRECTORY elements/                DESTINATION ${QET_COMMON_COLLECTION_PATH})
+install(DIRECTORY examples/                DESTINATION ${QET_EXAMPLES_PATH})
+install(DIRECTORY titleblocks/             DESTINATION ${QET_COMMON_TBT_PATH})
+
+# The MCP server (misc/qet-mcp) finds this QElectroTech and its elements
+# from here: <prefix>/share/qelectrotech/mcp -> <prefix>/bin.
+install(PROGRAMS misc/qet-mcp/qet_mcp.py   DESTINATION share/qelectrotech/mcp)
+install(FILES misc/qet-mcp/README.md       DESTINATION share/qelectrotech/mcp)
+
+install(FILES LICENSE ELEMENTS.LICENSE CREDIT README ChangeLog
+        DESTINATION ${QET_DOC_PATH})
+
+if(BUILD_KF)
+    install(FILES licenses/KDE-Frameworks.LICENSE licenses/KDE-Frameworks.NOTICE
+            DESTINATION ${QET_DOC_PATH})
 endif()
+
+if(UNIX AND NOT APPLE)
+    install(FILES misc/org.qelectrotech.qelectrotech.desktop
+            DESTINATION ${QET_DESKTOP_PATH})
+    install(FILES misc/qelectrotech.xml
+            DESTINATION ${QET_MIME_PACKAGE_PATH})
+    install(FILES misc/qelectrotech.appdata.xml
+            DESTINATION ${QET_APPDATA_PATH})
+endif()
+
+install(FILES ${QM_FILES} DESTINATION ${QET_LANG_PATH})

@@ -510,11 +510,11 @@ add_executable(
   tst_conductorselfretrace
   tst_conductorselfretrace.cpp)
 add_test(NAME tst_conductorselfretrace COMMAND tst_conductorselfretrace)
-add_dependencies(tst_conductorselfretrace qelectrotech)
+add_dependencies(tst_conductorselfretrace QElectroTech)
 target_include_directories(tst_conductorselfretrace PRIVATE ${QET_DIR}/sources)
 target_link_libraries(tst_conductorselfretrace PRIVATE Qt::Test)
 target_compile_definitions(tst_conductorselfretrace PRIVATE
-  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\"")
+  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:${PROJECT_NAME}>\"")
 
 # A free text with a width keeps it when the project is saved again (the
 # attribute is written only when set) and is drawn wrapped to it.
@@ -536,10 +536,10 @@ add_executable(
   tst_wiringlistexport
   tst_wiringlistexport.cpp)
 add_test(NAME tst_wiringlistexport COMMAND tst_wiringlistexport)
-add_dependencies(tst_wiringlistexport qelectrotech)
+add_dependencies(tst_wiringlistexport QElectroTech)
 target_link_libraries(tst_wiringlistexport PRIVATE Qt::Test)
 target_compile_definitions(tst_wiringlistexport PRIVATE
-  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\""
+  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\""
   "QET_EXAMPLES_DIR=\"${QET_DIR}/examples\"")
 
 # --export-dxf writes a wrapped symbol text line by line, as it is drawn.
@@ -581,10 +581,10 @@ add_executable(
   tst_pdfpagesize
   tst_pdfpagesize.cpp)
 add_test(NAME tst_pdfpagesize COMMAND tst_pdfpagesize)
-add_dependencies(tst_pdfpagesize qelectrotech)
+add_dependencies(tst_pdfpagesize QElectroTech)
 target_link_libraries(tst_pdfpagesize PRIVATE Qt::Test Qt::Gui)
 target_compile_definitions(tst_pdfpagesize PRIVATE
-  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\"")
+  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\"")
 
 # --export-pdf writes the cross-reference links in the same order in every
 # run, rather than in Element pointer order. Exports examples/industrial.qet
@@ -593,10 +593,10 @@ add_executable(
   tst_pdflinkorder
   tst_pdflinkorder.cpp)
 add_test(NAME tst_pdflinkorder COMMAND tst_pdflinkorder)
-add_dependencies(tst_pdflinkorder qelectrotech)
+add_dependencies(tst_pdflinkorder QElectroTech)
 target_link_libraries(tst_pdflinkorder PRIVATE Qt::Test)
 target_compile_definitions(tst_pdflinkorder PRIVATE
-  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\""
+  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\""
   "QET_EXAMPLES_DIR=\"${QET_DIR}/examples\"")
 
 # One text per potential: the number goes on the same conductor in every
@@ -607,10 +607,10 @@ add_executable(
   tst_potentialtextcarrier
   tst_potentialtextcarrier.cpp)
 add_test(NAME tst_potentialtextcarrier COMMAND tst_potentialtextcarrier)
-add_dependencies(tst_potentialtextcarrier qelectrotech)
+add_dependencies(tst_potentialtextcarrier QElectroTech)
 target_link_libraries(tst_potentialtextcarrier PRIVATE Qt::Test)
 target_compile_definitions(tst_potentialtextcarrier PRIVATE
-  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\"")
+  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\"")
 
 # Junction dots: a wire's corner that lies on another wire of the same
 # potential gets a dot, even when the two share no terminal (issue #1280).
@@ -631,10 +631,10 @@ add_executable(
   tst_pdfreproducible
   tst_pdfreproducible.cpp)
 add_test(NAME tst_pdfreproducible COMMAND tst_pdfreproducible)
-add_dependencies(tst_pdfreproducible qelectrotech)
+add_dependencies(tst_pdfreproducible QElectroTech)
 target_link_libraries(tst_pdfreproducible PRIVATE Qt::Test)
 target_compile_definitions(tst_pdfreproducible PRIVATE
-  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\""
+  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\""
   "QET_EXAMPLES_DIR=\"${QET_DIR}/examples\"")
 
 # Hops where wires cross (issue #436): the geometry in wirehops.cpp, and
@@ -645,11 +645,11 @@ add_executable(
   tst_wirehops.cpp
   ${QET_DIR}/sources/wirehops.cpp)
 add_test(NAME tst_wirehops COMMAND tst_wirehops)
-add_dependencies(tst_wirehops qelectrotech)
+add_dependencies(tst_wirehops QElectroTech)
 target_include_directories(tst_wirehops PRIVATE ${QET_DIR}/sources)
 target_link_libraries(tst_wirehops PRIVATE Qt::Test Qt::Gui)
 target_compile_definitions(tst_wirehops PRIVATE
-  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\"")
+  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\"")
 
 # Wires per terminal (discussion #1158): the rules in wiringrules.cpp, and
 # through the real binary, that --resave keeps the project setting, adds
@@ -660,11 +660,11 @@ add_executable(
   tst_wiringrules.cpp
   ${QET_DIR}/sources/wiringrules.cpp)
 add_test(NAME tst_wiringrules COMMAND tst_wiringrules)
-add_dependencies(tst_wiringrules qelectrotech)
+add_dependencies(tst_wiringrules QElectroTech)
 target_include_directories(tst_wiringrules PRIVATE ${QET_DIR}/sources)
 target_link_libraries(tst_wiringrules PRIVATE Qt::Test Qt::Xml)
 target_compile_definitions(tst_wiringrules PRIVATE
-  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\"")
+  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\"")
 
 # The routing behind qet.routeConductor(): conductorrouter.cpp needs only
 # Qt Core, so the geometry is tested without a scene.
@@ -686,10 +686,10 @@ if(QET_HAS_SCRIPTING)
     tst_scriptconductoruuid
     tst_scriptconductoruuid.cpp)
   add_test(NAME tst_scriptconductoruuid COMMAND tst_scriptconductoruuid)
-  add_dependencies(tst_scriptconductoruuid qelectrotech)
+  add_dependencies(tst_scriptconductoruuid QElectroTech)
   target_link_libraries(tst_scriptconductoruuid PRIVATE Qt::Test)
   target_compile_definitions(tst_scriptconductoruuid PRIVATE
-    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\"")
+    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\"")
 
   # qet.terminalPosition() and qet.conductorPath(), checked against each
   # other on a fixture's conductors.
@@ -697,10 +697,10 @@ if(QET_HAS_SCRIPTING)
     tst_scriptlayoutreads
     tst_scriptlayoutreads.cpp)
   add_test(NAME tst_scriptlayoutreads COMMAND tst_scriptlayoutreads)
-  add_dependencies(tst_scriptlayoutreads qelectrotech)
+  add_dependencies(tst_scriptlayoutreads QElectroTech)
   target_link_libraries(tst_scriptlayoutreads PRIVATE Qt::Test)
   target_compile_definitions(tst_scriptlayoutreads PRIVATE
-    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\"")
+    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\"")
 
   # The project database keeps the width of a free text (independent_text),
   # read with qet.query() on fixtures/free_text_width.qet.
@@ -719,10 +719,10 @@ if(QET_HAS_SCRIPTING)
     tst_settingsdir
     tst_settingsdir.cpp)
   add_test(NAME tst_settingsdir COMMAND tst_settingsdir)
-  add_dependencies(tst_settingsdir qelectrotech)
+  add_dependencies(tst_settingsdir QElectroTech)
   target_link_libraries(tst_settingsdir PRIVATE Qt::Test)
   target_compile_definitions(tst_settingsdir PRIVATE
-    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\""
+    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\""
     "QET_ELEMENTS_DIR=\"${QET_DIR}/elements\"")
 
   # qet.addElement() on a symbol that exists but cannot be read says so,
@@ -731,10 +731,10 @@ if(QET_HAS_SCRIPTING)
     tst_unreadableelement
     tst_unreadableelement.cpp)
   add_test(NAME tst_unreadableelement COMMAND tst_unreadableelement)
-  add_dependencies(tst_unreadableelement qelectrotech)
+  add_dependencies(tst_unreadableelement QElectroTech)
   target_link_libraries(tst_unreadableelement PRIVATE Qt::Test)
   target_compile_definitions(tst_unreadableelement PRIVATE
-    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\""
+    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\""
     "QET_ELEMENTS_DIR=\"${QET_DIR}/elements\"")
 
   # The project database filled from the file as it is read holds exactly
@@ -744,10 +744,10 @@ if(QET_HAS_SCRIPTING)
     tst_databasefromdocument
     tst_databasefromdocument.cpp)
   add_test(NAME tst_databasefromdocument COMMAND tst_databasefromdocument)
-  add_dependencies(tst_databasefromdocument qelectrotech)
+  add_dependencies(tst_databasefromdocument QElectroTech)
   target_link_libraries(tst_databasefromdocument PRIVATE Qt::Test Qt::Xml)
   target_compile_definitions(tst_databasefromdocument PRIVATE
-    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\""
+    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\""
     "QET_EXAMPLES_DIR=\"${QET_DIR}/examples\"")
 
   # The project database keeps a folio's date with its century: 741.qet's
@@ -756,10 +756,10 @@ if(QET_HAS_SCRIPTING)
     tst_dbfoliodate
     tst_dbfoliodate.cpp)
   add_test(NAME tst_dbfoliodate COMMAND tst_dbfoliodate)
-  add_dependencies(tst_dbfoliodate qelectrotech)
+  add_dependencies(tst_dbfoliodate QElectroTech)
   target_link_libraries(tst_dbfoliodate PRIVATE Qt::Test)
   target_compile_definitions(tst_dbfoliodate PRIVATE
-    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\""
+    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\""
     "QET_EXAMPLES_DIR=\"${QET_DIR}/examples\"")
 
   # qet.elementTerminals() lists each terminal's uuid and qet.terminalIndex()
@@ -769,10 +769,10 @@ if(QET_HAS_SCRIPTING)
     tst_scriptterminaluuid
     tst_scriptterminaluuid.cpp)
   add_test(NAME tst_scriptterminaluuid COMMAND tst_scriptterminaluuid)
-  add_dependencies(tst_scriptterminaluuid qelectrotech)
+  add_dependencies(tst_scriptterminaluuid QElectroTech)
   target_link_libraries(tst_scriptterminaluuid PRIVATE Qt::Test Qt::Xml)
   target_compile_definitions(tst_scriptterminaluuid PRIVATE
-    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\""
+    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\""
     "QET_EXAMPLES_DIR=\"${QET_DIR}/examples\"")
 
   # Mirroring a symbol on its folio (#1335): its terminals swap sides and
@@ -818,10 +818,10 @@ if(QET_HAS_SCRIPTING)
     tst_importcategory
     tst_importcategory.cpp)
   add_test(NAME tst_importcategory COMMAND tst_importcategory)
-  add_dependencies(tst_importcategory qelectrotech)
+  add_dependencies(tst_importcategory QElectroTech)
   target_link_libraries(tst_importcategory PRIVATE Qt::Test)
   target_compile_definitions(tst_importcategory PRIVATE
-    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\""
+    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\""
     "QET_EXAMPLES_DIR=\"${QET_DIR}/examples\""
     "QET_ELEMENTS_DIR=\"${QET_DIR}/elements\"")
 
@@ -831,10 +831,10 @@ if(QET_HAS_SCRIPTING)
     tst_scriptcurrentfolio
     tst_scriptcurrentfolio.cpp)
   add_test(NAME tst_scriptcurrentfolio COMMAND tst_scriptcurrentfolio)
-  add_dependencies(tst_scriptcurrentfolio qelectrotech)
+  add_dependencies(tst_scriptcurrentfolio QElectroTech)
   target_link_libraries(tst_scriptcurrentfolio PRIVATE Qt::Test)
   target_compile_definitions(tst_scriptcurrentfolio PRIVATE
-    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\""
+    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\""
     "QET_EXAMPLES_DIR=\"${QET_DIR}/examples\"")
 endif()
 
@@ -845,10 +845,10 @@ add_executable(
   tst_derivedsymboluuid
   tst_derivedsymboluuid.cpp)
 add_test(NAME tst_derivedsymboluuid COMMAND tst_derivedsymboluuid)
-add_dependencies(tst_derivedsymboluuid qelectrotech)
+add_dependencies(tst_derivedsymboluuid QElectroTech)
 target_link_libraries(tst_derivedsymboluuid PRIVATE Qt::Test Qt::Xml)
 target_compile_definitions(tst_derivedsymboluuid PRIVATE
-  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\"")
+  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\"")
 
 # A wire saved without a uuid gets one derived from its two ends: the same
 # on every load, saved, and unchanged by inserting a folio, reordering the
@@ -858,10 +858,10 @@ add_executable(
   tst_derivedwireuuid
   tst_derivedwireuuid.cpp)
 add_test(NAME tst_derivedwireuuid COMMAND tst_derivedwireuuid)
-add_dependencies(tst_derivedwireuuid qelectrotech)
+add_dependencies(tst_derivedwireuuid QElectroTech)
 target_link_libraries(tst_derivedwireuuid PRIVATE Qt::Test Qt::Xml)
 target_compile_definitions(tst_derivedwireuuid PRIVATE
-  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\""
+  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\""
   "QET_EXAMPLES_DIR=\"${QET_DIR}/examples\"")
 
 # Element numbering schemes carry an id and elements follow them by it:
@@ -887,10 +887,10 @@ add_executable(
   tst_resaveunchanged
   tst_resaveunchanged.cpp)
 add_test(NAME tst_resaveunchanged COMMAND tst_resaveunchanged)
-add_dependencies(tst_resaveunchanged qelectrotech)
+add_dependencies(tst_resaveunchanged QElectroTech)
 target_link_libraries(tst_resaveunchanged PRIVATE Qt::Test)
 target_compile_definitions(tst_resaveunchanged PRIVATE
-  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\""
+  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\""
   "QET_EXAMPLES_DIR=\"${QET_DIR}/examples\"")
 
 # Replacing a symbol's definition in a project keeps its terminal uuids, so
@@ -901,10 +901,10 @@ add_executable(
   tst_terminaluuids.cpp
   ${QET_DIR}/sources/ElementsCollection/terminaluuids.cpp)
 add_test(NAME tst_terminaluuids COMMAND tst_terminaluuids)
-add_dependencies(tst_terminaluuids qelectrotech)
+add_dependencies(tst_terminaluuids QElectroTech)
 target_link_libraries(tst_terminaluuids PRIVATE Qt::Test Qt::Xml)
 target_compile_definitions(tst_terminaluuids PRIVATE
-  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\""
+  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\""
   "QET_EXAMPLES_DIR=\"${QET_DIR}/examples\"")
 
 # ConductorProperties::applyChanges() -- the Selection properties panel

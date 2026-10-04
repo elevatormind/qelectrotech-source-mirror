@@ -18,53 +18,44 @@
 
 message(" - paths_compilation_installation")
 
+include(GNUInstallDirs)
+
+set(QET_INSTALL_PREFIX          "${CMAKE_INSTALL_PREFIX}")
+set(QET_BINARY_PATH             "${CMAKE_INSTALL_BINDIR}")
+set(QET_ICONS_PATH              "${CMAKE_INSTALL_DATADIR}/icons/hicolor/")
+
 if(UNIX AND NOT APPLE)
   # for Linux, BSD, Solaris, Minix
-  set(COMPIL_PREFIX               "${CMAKE_INSTALL_PREFIX}/")
-  set(INSTALL_PREFIX              "${CMAKE_INSTALL_PREFIX}/")
-  set(QET_BINARY_PATH             "bin/")
-  set(QET_COMMON_COLLECTION_PATH  "share/qelectrotech/elements/")
-  set(QET_COMMON_TBT_PATH         "share/qelectrotech/titleblocks/")
-  set(QET_LANG_PATH               "share/qelectrotech/lang/")
-  set(QET_EXAMPLES_PATH           "share/qelectrotech/examples/")
-  set(QET_LICENSE_PATH            "doc/qelectrotech/")
-  set(QET_MIME_PACKAGE_PATH       "share/mime/packages/")
-  set(QET_DESKTOP_PATH            "share/applications/")
-  set(QET_ICONS_PATH              "share/icons/hicolor/")
-  set(QET_MAN_PATH                "man/")
-  set(QET_APPDATA_PATH            "share/appdata")
+  set(QET_COMMON_COLLECTION_PATH  "${CMAKE_INSTALL_DATADIR}/${QET_PACKAGE_NAME}/elements")
+  set(QET_COMMON_TBT_PATH         "${CMAKE_INSTALL_DATADIR}/${QET_PACKAGE_NAME}/titleblocks")
+  set(QET_LANG_PATH               "${CMAKE_INSTALL_DATADIR}/${QET_PACKAGE_NAME}/lang")
+  set(QET_EXAMPLES_PATH           "${CMAKE_INSTALL_DATADIR}/${QET_PACKAGE_NAME}/examples")
+  set(QET_DOC_PATH                "${CMAKE_INSTALL_DATADIR}/doc/${QET_PACKAGE_NAME}")
+  set(QET_MIME_PACKAGE_PATH       "${CMAKE_INSTALL_DATADIR}/mime/packages")
+  set(QET_DESKTOP_PATH            "${CMAKE_INSTALL_DATADIR}/applications/")
+  set(QET_MAN_PATH                "${CMAKE_INSTALL_MANDIR}")
+  set(QET_APPDATA_PATH            "${CMAKE_INSTALL_DATADIR}/appdata")
 endif()
 
 if(APPLE)
   # for MacOS X or iOS, watchOS, tvOS (since 3.10.3)
-  set(COMPIL_PREFIX               "./")
-  set(INSTALL_PREFIX              "/usr/local/")
-  set(QET_BINARY_PATH             "bin/")
   set(QET_COMMON_COLLECTION_PATH  "../Resources/elements/")
   set(QET_COMMON_TBT_PATH         "../Resources/titleblocks/")
   set(QET_LANG_PATH               "../Resources/lang/")
-  set(QET_EXAMPLES_PATH           "share/qelectrotech/examples/")
-  set(QET_LICENSE_PATH            "doc/qelectrotech/")
-  set(QET_DESKTOP_PATH            "share/applications/")
-  set(QET_ICONS_PATH              "share/icons/hicolor/")
-  set(QET_MAN_PATH                "man/")
+  set(QET_EXAMPLES_PATH           "${CMAKE_INSTALL_DATADIR}/${QET_PACKAGE_NAME}/examples")
+  set(QET_DOC_PATH                "${CMAKE_INSTALL_DATADIR}/doc/${QET_PACKAGE_NAME}")
+  set(QET_DESKTOP_PATH            "${CMAKE_INSTALL_DATADIR}/applications/")
+  set(QET_MAN_PATH                "${CMAKE_INSTALL_MANDIR}")
   set(ICON                        "ico/mac_icon/qelectrotech.icns")
 endif()
 
 if(WIN32)
   # for Windows operating system in general
-  set(COMPIL_PREFIX               "./")
-  set(INSTALL_PREFIX              "./")
-  set(QET_BINARY_PATH             "./")
-  set(QET_COMMON_COLLECTION_PATH  "elements/")
-  set(QET_COMMON_TBT_PATH         "titleblocks/")
-  # "lang/" and not "l10n/": that is where every Windows packaging actually
-  # puts the .qm files (see build-aux/windows/QElectroTech.wxs and the
-  # windows-build workflow), and what the shortcuts pass as --lang-dir.
-  set(QET_LANG_PATH               "lang/")
-  set(QET_EXAMPLES_PATH           "examples/")
-  set(QET_LICENSE_PATH            "./")
-  set(QET_ICONS_PATH              "icons/hicolor/")
+  set(QET_COMMON_COLLECTION_PATH  "${CMAKE_INSTALL_DATADIR}/elements")
+  set(QET_COMMON_TBT_PATH         "${CMAKE_INSTALL_DATADIR}/titleblocks")
+  set(QET_LANG_PATH               "${CMAKE_INSTALL_DATADIR}/lang")
+  set(QET_EXAMPLES_PATH           "${CMAKE_INSTALL_DATADIR}/examples")
+  set(QET_DOC_PATH                "${CMAKE_INSTALL_DATADIR}/doc")
   # Liste des ressources Windows
-#RC_FILE = qelectrotech.rc
+  #RC_FILE = qelectrotech.rc
 endif()
