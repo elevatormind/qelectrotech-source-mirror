@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with QElectroTech. If not, see <http://www.gnu.org/licenses/>.
 
-message(STATUS "Generating WIX installer...")
+message(STATUS "Configuring WIX generator...")
 
 set(CPACK_WIX_VERSION 4)
 
