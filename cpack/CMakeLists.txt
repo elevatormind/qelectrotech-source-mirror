@@ -16,6 +16,8 @@
 
 message(STATUS "Configuring CPack...")
 
+set(CPACK_PACKAGE_VENDOR "The QElectroTech Team")
+
 list(LENGTH CPACK_GENERATOR cpack_generator_count)
 if(cpack_generator_count EQUAL 0)
   message(
