@@ -523,10 +523,10 @@ add_executable(
   tst_freetextwidth.cpp)
 add_test(NAME tst_freetextwidth COMMAND tst_freetextwidth)
 set_tests_properties(tst_freetextwidth PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=offscreen")
-add_dependencies(tst_freetextwidth qelectrotech)
+add_dependencies(tst_freetextwidth QElectroTech)
 target_link_libraries(tst_freetextwidth PRIVATE Qt::Test Qt::Gui Qt::Xml)
 target_compile_definitions(tst_freetextwidth PRIVATE
-  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\"")
+  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\"")
 
 # The wiring list export (--export-cables) keeps every wire drawn to a folio
 # report when a report has several, joins only one-to-one report pairs, and
@@ -547,10 +547,10 @@ add_executable(
   tst_dxfwrappedtext
   tst_dxfwrappedtext.cpp)
 add_test(NAME tst_dxfwrappedtext COMMAND tst_dxfwrappedtext)
-add_dependencies(tst_dxfwrappedtext qelectrotech)
+add_dependencies(tst_dxfwrappedtext QElectroTech)
 target_link_libraries(tst_dxfwrappedtext PRIVATE Qt::Test)
 target_compile_definitions(tst_dxfwrappedtext PRIVATE
-  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\"")
+  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\"")
 
 # --export-dxf on a folio with its title block at the right (issue #1339):
 # a circle and an arc stay one CIRCLE and one ARC, the title block is turned.
@@ -708,10 +708,10 @@ if(QET_HAS_SCRIPTING)
     tst_scriptfreetextwidth
     tst_scriptfreetextwidth.cpp)
   add_test(NAME tst_scriptfreetextwidth COMMAND tst_scriptfreetextwidth)
-  add_dependencies(tst_scriptfreetextwidth qelectrotech)
+  add_dependencies(tst_scriptfreetextwidth QElectroTech)
   target_link_libraries(tst_scriptfreetextwidth PRIVATE Qt::Test)
   target_compile_definitions(tst_scriptfreetextwidth PRIVATE
-    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\"")
+    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\"")
 
   # QET_SETTINGS_DIR moves the settings into an INI file there (#1178): a
   # script places a symbol only the folder's settings file can resolve.
@@ -806,10 +806,10 @@ if(QET_HAS_SCRIPTING)
     tst_imagecropundo
     tst_imagecropundo.cpp)
   add_test(NAME tst_imagecropundo COMMAND tst_imagecropundo)
-  add_dependencies(tst_imagecropundo qelectrotech)
+  add_dependencies(tst_imagecropundo QElectroTech)
   target_link_libraries(tst_imagecropundo PRIVATE Qt::Test Qt::Gui)
   target_compile_definitions(tst_imagecropundo PRIVATE
-    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\""
+    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\""
     "QET_EXAMPLES_DIR=\"${QET_DIR}/examples\"")
 
   # The same symbol placed twice in a project whose collection does not
