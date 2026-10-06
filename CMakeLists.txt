@@ -151,7 +151,7 @@ endif()
 # als laatse
 include(cmake/define_definitions.cmake)
 
-add_executable(
+qt_add_executable(
     ${PROJECT_NAME}
     WIN32
     MACOSX_BUNDLE
