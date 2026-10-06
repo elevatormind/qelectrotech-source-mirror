@@ -59,3 +59,31 @@ if(WIN32)
   # Liste des ressources Windows
   #RC_FILE = qelectrotech.rc
 endif()
+
+# cmake_path() added in CMake 3.20
+if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.20")
+  cmake_path(NORMAL_PATH QET_INSTALL_PREFIX)
+  cmake_path(NORMAL_PATH QET_BINARY_PATH)
+  cmake_path(NORMAL_PATH QET_ICONS_PATH)
+  cmake_path(NORMAL_PATH QET_COMMON_COLLECTION_PATH)
+  cmake_path(NORMAL_PATH QET_COMMON_TBT_PATH)
+  cmake_path(NORMAL_PATH QET_LANG_PATH)
+  cmake_path(NORMAL_PATH QET_EXAMPLES_PATH)
+  cmake_path(NORMAL_PATH QET_DOC_PATH)
+
+  if(QET_MIME_PACKAGE_PATH)
+    cmake_path(NORMAL_PATH QET_MIME_PACKAGE_PATH)
+  endif()
+
+  if(QET_DESKTOP_PATH)
+    cmake_path(NORMAL_PATH QET_DESKTOP_PATH)
+  endif()
+
+  if(QET_MAN_PATH)
+    cmake_path(NORMAL_PATH QET_MAN_PATH)
+  endif()
+
+  if(QET_APPDATA_PATH)
+    cmake_path(NORMAL_PATH QET_APPDATA_PATH)
+  endif()
+endif()

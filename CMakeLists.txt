@@ -381,6 +381,7 @@ install(DIRECTORY ico/breeze-icons/256x256 DESTINATION ${QET_ICONS_PATH})
 install(DIRECTORY elements/                DESTINATION ${QET_COMMON_COLLECTION_PATH})
 install(DIRECTORY examples/                DESTINATION ${QET_EXAMPLES_PATH})
 install(DIRECTORY titleblocks/             DESTINATION ${QET_COMMON_TBT_PATH})
+install(FILES ${QM_FILES}                  DESTINATION ${QET_LANG_PATH})
 
 # The MCP server (misc/qet-mcp) finds this QElectroTech and its elements
 # from here: <prefix>/share/qelectrotech/mcp -> <prefix>/bin.
@@ -403,7 +404,5 @@ if(UNIX AND NOT APPLE)
     install(FILES misc/qelectrotech.appdata.xml
             DESTINATION ${QET_APPDATA_PATH})
 endif()
-
-install(FILES ${QM_FILES} DESTINATION ${QET_LANG_PATH})
 
 add_subdirectory(cpack)

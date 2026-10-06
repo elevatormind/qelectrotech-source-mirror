@@ -15,3 +15,27 @@
 # along with QElectroTech. If not, see <http://www.gnu.org/licenses/>.
 
 message(STATUS "Generating WIX installer...")
+
+set(CPACK_WIX_VERSION 4)
+
+set(CPACK_WIX_UPGRADE_GUID "A1B2C3D4-E5F6-7890-ABCD-EF1234567890")
+
+set(ICON_PATH "${QET_DIR}/ico/windows_icon/qelectrotech.ico")
+set(CPACK_WIX_PRODUCT_ICON "${ICON_PATH}")
+
+string(REPLACE "/" "." QET_BINARY_PATH_DOT "${QET_BINARY_PATH}")
+string(REPLACE "\\" "." QET_BINARY_PATH_DOT "${QET_BINARY_PATH_DOT}")
+
+configure_file(
+    "${QET_DIR}/cpack/wix/shortcuts.wxs.in"
+    "${CMAKE_BINARY_DIR}/cpack/wix/shortcuts.wxs"
+    @ONLY)
+
+configure_file(
+    "${QET_DIR}/LICENSE"
+    "${CMAKE_BINARY_DIR}/License.txt"
+    COPYONLY)
+
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_BINARY_DIR}/License.txt")
+
+list(APPEND CPACK_WIX_PATCH_FILE "${CMAKE_BINARY_DIR}/cpack/wix/shortcuts.wxs")

@@ -1,0 +1,42 @@
+<CPackWiXPatch>
+
+    <CPackWiXFragment Id="#PRODUCT">
+
+        <Icon Id="QET_Icon.ico" SourceFile="@ICON_PATH@" />
+
+        <Component Id="C_ShortcutDesktop" Guid="F1A2B3C4-D5E6-7890-5678-012345678901">
+            <Shortcut Id="DesktopShortcut"
+                      Directory="DesktopFolder"
+                      Name="@PROJECT_NAME@"
+                      Target="[#CM_FP_@QET_BINARY_PATH_DOT@.@PROJECT_NAME@.exe]"
+                      Icon="QET_Icon.ico"
+                      WorkingDirectory="CM_DP_@QET_BINARY_PATH_DOT@" />
+            <RegistryValue Root="HKCU"
+                           Key="Software\@PROJECT_NAME@"
+                           Name="DesktopShortcut"
+                           Type="integer" Value="1"
+                           KeyPath="yes" />
+        </Component>
+
+        <Component Id="C_ShortcutStartMenu" Guid="A2B3C4D5-E6F7-8901-6789-123456789012">
+            <Shortcut Id="StartMenuShortcut"
+                      Directory="StartMenuFolder"
+                      Name="@PROJECT_NAME@"
+                      Target="[#CM_FP_@QET_BINARY_PATH_DOT@.@PROJECT_NAME@.exe]"
+                      Icon="QET_Icon.ico"
+                      WorkingDirectory="CM_DP_@QET_BINARY_PATH_DOT@" />
+            <RegistryValue Root="HKCU"
+                           Key="Software\@PROJECT_NAME@"
+                           Name="StartMenuShortcut"
+                           Type="integer" Value="1"
+                           KeyPath="yes" />
+        </Component>
+
+    </CPackWiXFragment>
+
+  <CPackWiXFragment Id="#PRODUCTFEATURE">
+    <ComponentRef Id="C_ShortcutDesktop" />
+    <ComponentRef Id="C_ShortcutStartMenu" />
+  </CPackWiXFragment>
+
+</CPackWiXPatch>
