@@ -384,9 +384,11 @@ install(DIRECTORY titleblocks/             DESTINATION ${QET_COMMON_TBT_PATH})
 install(FILES ${QM_FILES}                  DESTINATION ${QET_LANG_PATH})
 
 # The MCP server (misc/qet-mcp) finds this QElectroTech and its elements
-# from here: <prefix>/share/qelectrotech/mcp -> <prefix>/bin.
-install(PROGRAMS misc/qet-mcp/qet_mcp.py   DESTINATION share/qelectrotech/mcp)
-install(FILES misc/qet-mcp/README.md       DESTINATION share/qelectrotech/mcp)
+# from here:
+#   Linux/macOS: <prefix>/share/qelectrotech/mcp -> <prefix>/bin, <prefix>/share/qelectrotech/elements
+#   Windows:     <prefix>/mcp -> <prefix>/bin, <prefix>/elements
+install(PROGRAMS misc/qet-mcp/qet_mcp.py   DESTINATION ${QET_MCP_PATH})
+install(FILES misc/qet-mcp/README.md       DESTINATION ${QET_MCP_PATH})
 
 install(FILES LICENSE ELEMENTS.LICENSE CREDIT README ChangeLog
         DESTINATION ${QET_DOC_PATH})
