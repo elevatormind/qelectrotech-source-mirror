@@ -17,6 +17,7 @@
 include(cmake/hoto_update_cmake_message.cmake)
 
 cmake_minimum_required(VERSION 3.5...4.2)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 if(WIN32)
     set(QET_PACKAGE_NAME "QElectroTech")
