@@ -36,6 +36,4 @@ configure_file(
     "${CMAKE_BINARY_DIR}/License.txt"
     COPYONLY)
 
-set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_BINARY_DIR}/License.txt")
-
 list(APPEND CPACK_WIX_PATCH_FILE "${CMAKE_BINARY_DIR}/cpack/wix/shortcuts.wxs")

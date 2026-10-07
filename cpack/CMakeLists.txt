@@ -17,6 +17,7 @@
 message(STATUS "Configuring CPack...")
 
 set(CPACK_PACKAGE_VENDOR "The QElectroTech Team")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_BINARY_DIR}/License.txt")
 
 list(LENGTH CPACK_GENERATOR cpack_generator_count)
 if(cpack_generator_count EQUAL 0)
