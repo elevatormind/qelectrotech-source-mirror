@@ -14,6 +14,4 @@
 # You should have received a copy of the GNU General Public License
 # along with QElectroTech. If not, see <http://www.gnu.org/licenses/>.
 
-message(STATUS "Configuring NSIS generator...")
-
-message(WARNING "NSIS generator is not yet implemented.")
+message(STATUS "Configuring TGZ generator...")

@@ -14,6 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with QElectroTech. If not, see <http://www.gnu.org/licenses/>.
 
-message(STATUS "Configuring NSIS generator...")
+message(STATUS "Configuring RPM generator...")
 
-message(WARNING "NSIS generator is not yet implemented.")
+message(WARNING "RPM generator is not yet implemented.")
