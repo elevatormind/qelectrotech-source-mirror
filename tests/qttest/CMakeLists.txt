@@ -76,7 +76,7 @@ find_package(Python3 QUIET COMPONENTS Interpreter)
 if(Python3_Interpreter_FOUND AND CMAKE_GENERATOR STREQUAL "Ninja")
   add_test(NAME tst_darkimageintegration
     COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/run_image_dark_probe.py
-      --build ${CMAKE_BINARY_DIR} --binary $<TARGET_FILE:qelectrotech>
+      --build ${CMAKE_BINARY_DIR} --binary $<TARGET_FILE:QElectroTech>
       --source ${CMAKE_CURRENT_SOURCE_DIR}/image_dark_integration_probe.cpp
       --fixture ${CMAKE_CURRENT_SOURCE_DIR}/fixtures/unlinked_contact_label.qet)
   set_tests_properties(tst_darkimageintegration PROPERTIES TIMEOUT 300 RUN_SERIAL TRUE)
@@ -558,10 +558,10 @@ add_executable(
   tst_dxfcurves
   tst_dxfcurves.cpp)
 add_test(NAME tst_dxfcurves COMMAND tst_dxfcurves)
-add_dependencies(tst_dxfcurves qelectrotech)
+add_dependencies(tst_dxfcurves QElectroTech)
 target_link_libraries(tst_dxfcurves PRIVATE Qt::Test)
 target_compile_definitions(tst_dxfcurves PRIVATE
-  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\"")
+  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\"")
 
 # --export-dxf --dxf-blocks: a symbol placed twice is one BLOCK and two
 # INSERTs (issue #1339).
@@ -569,10 +569,10 @@ add_executable(
   tst_dxfblocks
   tst_dxfblocks.cpp)
 add_test(NAME tst_dxfblocks COMMAND tst_dxfblocks)
-add_dependencies(tst_dxfblocks qelectrotech)
+add_dependencies(tst_dxfblocks QElectroTech)
 target_link_libraries(tst_dxfblocks PRIVATE Qt::Test)
 target_compile_definitions(tst_dxfblocks PRIVATE
-  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\"")
+  "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\"")
 
 # --export-pdf puts an A3 folio on an A3 page whichever way it is turned:
 # QPageSize matches standard sheets upright only, so a wide folio is matched
@@ -782,10 +782,10 @@ if(QET_HAS_SCRIPTING)
     tst_scriptmirror
     tst_scriptmirror.cpp)
   add_test(NAME tst_scriptmirror COMMAND tst_scriptmirror)
-  add_dependencies(tst_scriptmirror qelectrotech)
+  add_dependencies(tst_scriptmirror QElectroTech)
   target_link_libraries(tst_scriptmirror PRIVATE Qt::Test Qt::Xml)
   target_compile_definitions(tst_scriptmirror PRIVATE
-    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\""
+    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\""
     "QET_EXAMPLES_DIR=\"${QET_DIR}/examples\"")
 
   # A project can keep the texts of its turned symbols horizontal: the
@@ -794,10 +794,10 @@ if(QET_HAS_SCRIPTING)
     tst_uprightsymboltexts
     tst_uprightsymboltexts.cpp)
   add_test(NAME tst_uprightsymboltexts COMMAND tst_uprightsymboltexts)
-  add_dependencies(tst_uprightsymboltexts qelectrotech)
+  add_dependencies(tst_uprightsymboltexts QElectroTech)
   target_link_libraries(tst_uprightsymboltexts PRIVATE Qt::Test)
   target_compile_definitions(tst_uprightsymboltexts PRIVATE
-    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:qelectrotech>\""
+    "QET_TEST_BINARY_PATH=\"$<TARGET_FILE:QElectroTech>\""
     "QET_EXAMPLES_DIR=\"${QET_DIR}/examples\"")
 
   # Undoing a crop of a picture restores its crop rectangle too, so a
