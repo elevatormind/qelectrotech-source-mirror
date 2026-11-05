@@ -1,0 +1,120 @@
+name: MSVC build and tests
+
+# Microsoft's compiler, in RelWithDebInfo as CONTRIBUTING.md asks: its Debug
+# libraries are too slow for the tests. Without KDE Frameworks, which no
+# package source has prebuilt for it. Ninja, as the probe tests read
+# build.ninja. With what the official Windows build has besides: PDF page
+# import (Qt PDF), the history of a .qetdb's saves (SQLite's session
+# extension) and the 3D mouse (hidapi).
+
+on:
+  push:
+    branches: [ci/msvc]
+  workflow_dispatch:
+
+jobs:
+  msvc:
+    name: Build and test (MSVC, RelWithDebInfo)
+    runs-on: windows-latest
+    timeout-minutes: 300
+    env:
+      CCACHE_DIR: ${{ github.workspace }}\.ccache
+      CCACHE_BASEDIR: ${{ github.workspace }}
+      CCACHE_MAXSIZE: 4G
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      # 6.10.3: from 6.11 on Qt's download site has a layout that aqtinstall 3.3,
+      # which this action uses, cannot read yet
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: 6.10.3
+          arch: win64_msvc2022_64
+          modules: qtpdf
+          cache: true
+
+      - name: Set up the compiler's environment
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Install Ninja, ccache, SQLite and hidapi
+        shell: pwsh
+        run: |
+          choco install ninja ccache -y --no-progress
+          vcpkg install "sqlite3[session]:x64-windows" hidapi:x64-windows
+          "$env:VCPKG_INSTALLATION_ROOT\installed\x64-windows\bin" | Out-File -Append $env:GITHUB_PATH
+
+      # Restored and saved in two steps: the cache action saves only when the
+      # whole job passes, and a failed test must not cost the next build this
+      - name: Restore ccache
+        uses: actions/cache/restore@v5
+        with:
+          path: .ccache
+          key: ccache-msvc-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            ccache-msvc-${{ github.ref_name }}-
+            ccache-msvc-
+
+      # Embedded: ccache cannot cache the shared .pdb file of the default /Zi
+      - name: Configure
+        shell: pwsh
+        run: >
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo
+          -DBUILD_WITH_KF=OFF -DPACKAGE_TESTS=ON
+          -DQET_ENABLE_SPACEMOUSE=ON -DQET_SPACEMOUSE_BACKEND=hid
+          "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
+          -DCMAKE_C_COMPILER_LAUNCHER=ccache
+          -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+          -DCMAKE_MSVC_DEBUG_INFORMATION_FORMAT=Embedded
+          "-DCMAKE_TOOLCHAIN_FILE=$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
+
+      # PowerShell fails a step only on its last command's exit code, here
+      # ccache's, so keep the build's. Once more on failure: a link on the
+      # runner can fail while another process holds the file for a moment
+      - name: Build
+        shell: pwsh
+        run: |
+          ccache -z
+          cmake --build build --parallel
+          if ($LASTEXITCODE -ne 0) {
+            Write-Output "::warning::The build failed; building once more"
+            cmake --build build --parallel
+          }
+          $code = $LASTEXITCODE
+          ccache -s
+          exit $code
+
+      - name: Save ccache
+        uses: actions/cache/save@v5
+        with:
+          path: .ccache
+          key: ccache-msvc-${{ github.ref_name }}-${{ github.sha }}-${{ github.run_attempt }}
+
+      # Configure goes on without Qt PDF or hidapi, with only a line in its
+      # output: fail instead, and check that hidapi's DLL is installed too
+      - name: Check PDF import and the 3D mouse
+        shell: pwsh
+        run: |
+          $deps = dumpbin /dependents build\qelectrotech.exe | Out-String
+          foreach ($dll in "Qt6Pdf.dll", "hidapi.dll") {
+            if ($deps -notmatch [regex]::Escape($dll)) {
+              throw "qelectrotech.exe does not use $dll"
+            }
+          }
+          cmake --install build --prefix install-check --component qelectrotech
+          if (-not (Test-Path install-check\bin\hidapi.dll)) {
+            throw "hidapi.dll was not installed with QElectroTech"
+          }
+
+      - name: Run the tests
+        run: ctest --test-dir build --output-on-failure -j4
+
+      - name: Keep the test log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: msvc-test-log
+          path: build/Testing/Temporary/LastTest.log
+          if-no-files-found: ignore
