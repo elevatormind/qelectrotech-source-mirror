@@ -4,6 +4,8 @@ on:
   schedule:
     - cron: '0 2 1 * *' #
   workflow_dispatch:       # Manual trigger available at any time
+  push:
+    branches: [ci/allin-before, ci/allin-after]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -58,6 +60,7 @@ jobs:
             mingw-w64-ucrt-x86_64-angleproject
             mingw-w64-ucrt-x86_64-qt6-declarative
             mingw-w64-ucrt-x86_64-hidapi
+            mingw-w64-ucrt-x86_64-python
 
       - name: Cache ccache
         uses: actions/cache@v5
@@ -143,7 +146,7 @@ jobs:
         run: |
           set -euo pipefail
           cd "$GITHUB_WORKSPACE/build"
-          ctest --output-on-failure --timeout 300 && exit 0
+          ctest --output-on-failure --timeout 300 -j $(nproc) && exit 0
           # ctest shows no output for failed tests in this shell, so run each
           # failed test again with QtTest writing its log to a file, and print it.
           set +e
@@ -528,7 +531,7 @@ jobs:
   publish-nightly-assets:
     needs: [build-windows-qt6]
     runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request'
+    if: false
     permissions:
       contents: write
     env:
