@@ -11,7 +11,7 @@ name: Linux build and tests
 
 on:
   push:
-    branches: [master]
+    branches: [master, ci/allin-before, ci/allin-after]
   pull_request:
   workflow_dispatch:
 
@@ -26,7 +26,7 @@ jobs:
         run: |
           apt-get update
           DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-            ca-certificates build-essential cmake ninja-build git pkg-config \
+            ca-certificates build-essential cmake ninja-build git pkg-config python3 qt6-declarative-dev \
             qt6-base-dev qt6-base-private-dev qt6-tools-dev qt6-tools-dev-tools \
             libqt6svg6-dev libqt6sql6-sqlite libcups2-dev libsqlite3-dev \
             libxkbcommon-x11-0 \
@@ -61,7 +61,7 @@ jobs:
         run: cmake --build build --parallel $(nproc)
 
       - name: Unit tests
-        run: xvfb-run -a ctest --test-dir build --output-on-failure
+        run: xvfb-run -a ctest --test-dir build --output-on-failure -j $(nproc)
 
       - name: IPC open-forwarding regression (#868)
         # Fails the job only on an actual crash. An inconclusive run means the
