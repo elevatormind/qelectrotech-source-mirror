@@ -79,6 +79,28 @@ private slots:
 		const QString result = label(QStringLiteral("%F%T"), c);
 		QCOMPARE(result, QStringLiteral("1"));
 	}
+
+		//As many variables as a full project has: each one of them in
+		//the formula takes its own value
+	void everyVariableIsReplaced()
+	{
+		autonum::FormulaContext c = context();
+		QStringList formula, expected;
+		for (int i = 10; i < 40; ++i) {
+			c.project_properties.addValue(QStringLiteral("p%1").arg(i),
+										  QStringLiteral("P%1").arg(i));
+			formula << QStringLiteral("%{p%1}").arg(i);
+			expected << QStringLiteral("P%1").arg(i);
+		}
+		for (int i = 10; i < 20; ++i) {
+			c.title_block_fields.addValue(QStringLiteral("t%1").arg(i),
+										  QStringLiteral("T%1").arg(i));
+			formula << QStringLiteral("%{t%1}").arg(i);
+			expected << QStringLiteral("T%1").arg(i);
+		}
+		const QString result = label(formula.join(QLatin1Char('/')), c);
+		QCOMPARE(result, expected.join(QLatin1Char('/')));
+	}
 };
 
 int main(int argc, char **argv)
