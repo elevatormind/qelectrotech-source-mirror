@@ -465,9 +465,11 @@ namespace autonum
 	void AssignVariables::assignTitleBlockVar()
 	{
 		DiagramContext fields = m_context.title_block_fields;
-		for (int i = 0; i < fields.count(); i++)
+			//keys() copies and sorts the keys: once, not once a key
+		const QList<QString> keys = fields.keys();
+		for (int i = 0; i < keys.count(); i++)
 		{
-			QString folio_variable = fields.keys().at(i);
+			QString folio_variable = keys.at(i);
 			QVariant folio_value = fields[folio_variable];
 
 			if (m_assigned_label.contains(folio_variable)) {
@@ -480,9 +482,11 @@ namespace autonum
 	void AssignVariables::assignProjectVar()
 	{
 		DiagramContext properties = m_context.project_properties;
-		for (int i = 0; i < properties.count(); i++)
+			//keys() copies and sorts the keys: once, not once a key
+		const QList<QString> keys = properties.keys();
+		for (int i = 0; i < keys.count(); i++)
 		{
-			QString folio_variable = properties.keys().at(i);
+			QString folio_variable = keys.at(i);
 			QVariant folio_value = properties[folio_variable];
 
 			if (m_assigned_label.contains(folio_variable)) {
