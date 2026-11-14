@@ -9,7 +9,7 @@ name: MSVC build and tests
 
 on:
   push:
-    branches: [ci/msvc]
+    branches: [ci/msvc, ci/cabletarget-check]
   workflow_dispatch:
 
 jobs:
@@ -90,12 +90,6 @@ jobs:
           $code = $LASTEXITCODE
           ccache -s
           exit $code
-
-      - name: Save ccache
-        uses: actions/cache/save@v5
-        with:
-          path: .ccache
-          key: ccache-msvc-${{ github.ref_name }}-${{ github.sha }}-${{ github.run_attempt }}
 
       # Configure goes on without Qt PDF or hidapi, with only a line in its
       # output: fail instead, and check that hidapi's DLL is installed too
