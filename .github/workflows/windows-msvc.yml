@@ -58,6 +58,9 @@ jobs:
             ccache-msvc-
 
       # Embedded: ccache cannot cache the shared .pdb file of the default /Zi
+      # Links without /debug: each test that links the whole program merged
+      # its debug information into a .pdb of up to 190 MB, and all links took
+      # 5547 s, 492 s without. NOREF and NOICF keep the code as /debug has it.
       - name: Configure
         shell: pwsh
         run: >
@@ -70,6 +73,7 @@ jobs:
           -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
           -DCMAKE_MSVC_DEBUG_INFORMATION_FORMAT=Embedded
           "-DCMAKE_TOOLCHAIN_FILE=$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
+          "-DCMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO=/INCREMENTAL:NO /OPT:NOREF /OPT:NOICF"
 
       # PowerShell fails a step only on its last command's exit code, here
       # ccache's, so keep the build's. Once more on failure: a link on the
