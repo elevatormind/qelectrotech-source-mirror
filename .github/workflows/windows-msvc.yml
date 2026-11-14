@@ -9,7 +9,7 @@ name: MSVC build and tests
 
 on:
   push:
-    branches: [ci/msvc]
+    branches: [ci/msvc, 'ci/link-*']
   workflow_dispatch:
 
 jobs:
@@ -70,6 +70,7 @@ jobs:
           -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
           -DCMAKE_MSVC_DEBUG_INFORMATION_FORMAT=Embedded
           "-DCMAKE_TOOLCHAIN_FILE=$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
+          "-DCMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO=/debug /INCREMENTAL:NO"
 
       # PowerShell fails a step only on its last command's exit code, here
       # ccache's, so keep the build's. Once more on failure: a link on the
@@ -87,11 +88,32 @@ jobs:
           ccache -s
           exit $code
 
-      - name: Save ccache
-        uses: actions/cache/save@v5
-        with:
-          path: .ccache
-          key: ccache-msvc-${{ github.ref_name }}-${{ github.sha }}-${{ github.run_attempt }}
+      # Timing experiment: the build's own log of each step's time
+      - name: Link and compile times
+        if: always()
+        shell: pwsh
+        run: |
+          $rows = Get-Content build\.ninja_log | Select-Object -Skip 1 | ForEach-Object {
+            $f = $_ -split "`t"
+            [pscustomobject]@{ s = ([double]$f[1] - [double]$f[0]) / 1000; out = $f[3] }
+          }
+          $groups = @{
+            'link exe' = $rows | Where-Object { $_.out -match '\.exe$' }
+            'link dll' = $rows | Where-Object { $_.out -match '\.dll$' }
+            'compile'  = $rows | Where-Object { $_.out -match '\.obj$' }
+          }
+          foreach ($k in 'link exe', 'link dll', 'compile') {
+            $g = @($groups[$k] | Sort-Object s)
+            if ($g.Count -eq 0) { continue }
+            $sum = ($g | Measure-Object s -Sum).Sum
+            $median = $g[[int][math]::Floor($g.Count / 2)].s
+            "TIMING {0}: {1} steps, {2:N0} s in all, median {3:N1} s, max {4:N1} s" -f $k, $g.Count, $sum, $median, $g[-1].s
+          }
+          "TIMING slowest links:"
+          $groups['link exe'] | Sort-Object s -Descending | Select-Object -First 5 |
+            ForEach-Object { "TIMING   {0,6:N1} s {1}" -f $_.s, $_.out }
+          Get-ChildItem build -Recurse -Filter *.pdb | Measure-Object Length -Sum |
+            ForEach-Object { "TIMING pdb files: {0}, {1:N0} MB" -f $_.Count, ($_.Sum / 1MB) }
 
       # Configure goes on without Qt PDF or hidapi, with only a line in its
       # output: fail instead, and check that hidapi's DLL is installed too
